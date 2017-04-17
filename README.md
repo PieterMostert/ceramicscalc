@@ -36,8 +36,42 @@ $ composer require derekphilipau/ceramicscalc
 ## Usage
 
 ``` php
-$skeleton = new derekphilipau\ceramicscalc();
-echo $skeleton->echoPhrase('Hello, League!');
+
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::K2O, 16.92);
+        $percent->setOxide(Analysis::Al2O3, 18.32);
+        $percent->setOxide(Analysis::SiO2, 64.76);
+        $potash = new PrimitiveMaterial(1);
+        $potash->setName("Potash Feldspar");
+        $potash->setPercentageAnalysis($percent);
+
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::SiO2, 100);
+        $silica = new PrimitiveMaterial(2);
+        $silica->setName("Silica");
+        $silica->setPercentageAnalysis($percent);
+
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::CaO, 56.10);
+        $percent->setLOI(43.90);
+        $whiting = new PrimitiveMaterial(3);
+        $whiting->setName("Whiting");
+        $whiting->setPercentageAnalysis($percent);
+
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::Al2O3, 40.21);
+        $percent->setOxide(Analysis::SiO2, 47.29);
+        $percent->setLOI(12.50);
+        $kaolin = new PrimitiveMaterial(4);
+        $kaolin->setName("Kaolin");
+        $kaolin->setPercentageAnalysis($percent);
+
+        $leach4321 = new CompositeMaterial();
+        $leach4321->setName("Leach 4321");
+        $leach4321->addMaterial($potash, 40);
+        $leach4321->addMaterial($silica, 30);
+        $leach4321->addMaterial($whiting, 20);
+        $leach4321->addMaterial($kaolin, 10);
 ```
 
 ## Change log
