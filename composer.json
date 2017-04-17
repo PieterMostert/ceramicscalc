@@ -1,0 +1,52 @@
+{
+    "name": "derekphilipau/ceramicscalc",
+    "type": "library",
+    "description": "PHP package for representing ceramics analyses, materials, and recipes.",
+    "keywords": [
+        "derekphilipau",
+        "ceramicscalc",
+	"ceramics",
+	"glaze",
+	"chemistry"
+    ],
+    "homepage": "https://github.com/derekphilipau/ceramicscalc",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Derek Philip Au",
+            "email": "derek@derekau.net",
+            "homepage": "http://derekau.net",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~5.6|~7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "~4.0||~5.0||~6.0",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "DerekPhilipAu\\Ceramicscalc\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DerekPhilipAu\\Ceramicscalc\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
