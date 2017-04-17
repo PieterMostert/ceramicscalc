@@ -32,43 +32,85 @@ $ composer require derekphilipau/ceramicscalc
 
 ## Usage
 
+Create a Primitive Material:
 ``` php
+// Potash Feldspar
+$percent = new PercentageAnalysis();
+$percent->setOxide(Analysis::K2O, 16.92);
+$percent->setOxide(Analysis::Al2O3, 18.32);
+$percent->setOxide(Analysis::SiO2, 64.76);
+$potash = new PrimitiveMaterial(1);
+$potash->setName("Potash Feldspar");
+$potash->setPercentageAnalysis($percent);
+```
+More Primitive Materials:
+``` php
+// Silica
+$percent = new PercentageAnalysis();
+$percent->setOxide(Analysis::SiO2, 100);
+$silica = new PrimitiveMaterial(2);
+$silica->setName("Silica");
+$silica->setPercentageAnalysis($percent);
 
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::K2O, 16.92);
-        $percent->setOxide(Analysis::Al2O3, 18.32);
-        $percent->setOxide(Analysis::SiO2, 64.76);
-        $potash = new PrimitiveMaterial(1);
-        $potash->setName("Potash Feldspar");
-        $potash->setPercentageAnalysis($percent);
+// Whiting
+$percent = new PercentageAnalysis();
+$percent->setOxide(Analysis::CaO, 56.10);
+$percent->setLOI(43.90);
+$whiting = new PrimitiveMaterial(3);
+$whiting->setName("Whiting");
+$whiting->setPercentageAnalysis($percent);
 
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::SiO2, 100);
-        $silica = new PrimitiveMaterial(2);
-        $silica->setName("Silica");
-        $silica->setPercentageAnalysis($percent);
+// Kaolin
+$percent = new PercentageAnalysis();
+$percent->setOxide(Analysis::Al2O3, 40.21);
+$percent->setOxide(Analysis::SiO2, 47.29);
+$percent->setLOI(12.50);
+$kaolin = new PrimitiveMaterial(4);
+$kaolin->setName("Kaolin");
+$kaolin->setPercentageAnalysis($percent);
+```
 
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::CaO, 56.10);
-        $percent->setLOI(43.90);
-        $whiting = new PrimitiveMaterial(3);
-        $whiting->setName("Whiting");
-        $whiting->setPercentageAnalysis($percent);
+Create Composite Materials using Primitive Materials as components:
+``` php
+// Leach 4321
+$leach4321 = new CompositeMaterial();
+$leach4321->setName("Leach 4321");
+$leach4321->addMaterial($potash, 40);
+$leach4321->addMaterial($silica, 30);
+$leach4321->addMaterial($whiting, 20);
+$leach4321->addMaterial($kaolin, 10);
 
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::Al2O3, 40.21);
-        $percent->setOxide(Analysis::SiO2, 47.29);
-        $percent->setLOI(12.50);
-        $kaolin = new PrimitiveMaterial(4);
-        $kaolin->setName("Kaolin");
-        $kaolin->setPercentageAnalysis($percent);
+// Pinnell Clear
+$pinnell = new CompositeMaterial();
+$pinnell->setName("Pinnell Clear");
+$pinnell->addMaterial($potash, 25);
+$pinnell->addMaterial($silica, 35);
+$pinnell->addMaterial($whiting, 20);
+$pinnell->addMaterial($kaolin, 20);
+```
 
-        $leach4321 = new CompositeMaterial();
-        $leach4321->setName("Leach 4321");
-        $leach4321->addMaterial($potash, 40);
-        $leach4321->addMaterial($silica, 30);
-        $leach4321->addMaterial($whiting, 20);
-        $leach4321->addMaterial($kaolin, 10);
+Although component amounts usually add up to 100, this is not always the case:
+``` php
+// Pinnell Clear with amounts doubled
+$pinnell = new CompositeMaterial();
+$pinnell->setName("Pinnell Clear Doubled Amounts");
+$pinnell->addMaterial($potash, 50);
+$pinnell->addMaterial($silica, 70);
+$pinnell->addMaterial($whiting, 40);
+$pinnell->addMaterial($kaolin, 40);
+```
+
+Create a Composite Materials using other Composite Materials as components:
+``` php
+$leachPinnell = new CompositeMaterial();
+$leachPinnell->setName("MIX of Leach 4321 and Pinnell Clear");
+$leachPinnell->addMaterial($leach4321, 50);
+$leachPinnell->addMaterial($pinnell, 50);
+```
+
+Create a Line Blend of two Materials:
+``` php
+$lineBlend = LineBlend::createLineBlend($leach4321, $pinnell, 10, 90, 10, 90, 10);
 ```
 
 ## Change log
