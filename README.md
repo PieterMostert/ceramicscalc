@@ -7,10 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Derek Philip Au``` ```derekphilipau``` ```http://derekau.net``` ```derek@derekau.net``` ```derekphilipau``` ```ceramicscalc``` ```PHP package for representing ceramics analyses, materials, and recipes.``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
-
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+PHP package for representing ceramics analyses, materials, and recipes.
 
 ## Structure
 
@@ -87,10 +84,6 @@ $ composer test
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
-
-## Security
-
-If you discover any security related issues, please email derek@derekau.net instead of using the issue tracker.
 
 ## Credits
 
