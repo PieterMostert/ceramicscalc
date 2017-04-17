@@ -15,11 +15,10 @@ use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
 class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
 {
 
-    /**
-     * @dataProvider providerTestLeach4321
-     */
-    public function testGetPercentageAnalysis($leach4321)
+    public function testGetPercentageAnalysisLeach4321()
     {
+        $leach4321 = $this->providerLeach4321();
+
         $percent = $leach4321->getPercentageAnalysis();
 
         $this->assertEquals(60.63, round($percent->getOxide(Analysis::SiO2), 2));
@@ -31,11 +30,10 @@ class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @dataProvider providerTestLeach4321
-     */
-    public function testGet100PercentageAnalysis($leach4321)
+    public function testGet100PercentageAnalysisLeach4321()
     {
+        $leach4321 = $this->providerLeach4321();
+
         $percent100 = $leach4321->get100PercentPercentageAnalysis();
 
         $this->assertEquals(67.39, round($percent100->getOxide(Analysis::SiO2), 2));
@@ -46,11 +44,10 @@ class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $percent100->getLOI());
     }
 
-    /**
-     * @dataProvider providerTestLeach4321
-     */
-    public function testGetUmfAnalysis($leach4321)
+    public function testGetUmfAnalysisLeach4321()
     {
+        $leach4321 = $this->providerLeach4321();
+
         $formula = $leach4321->getUmfAnalysis();
 
         $this->assertEquals(3.711, round($formula->getOxide(Analysis::SiO2), 3));
@@ -59,27 +56,6 @@ class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0.264, round($formula->getKNaO(), 3));
         $this->assertEquals(0.736, round($formula->getOxide(Analysis::CaO), 3));
         $this->assertEquals(330.858, round($formula->getFormulaWeight(), 3));
-    }
-
-    public function providerTestLeach4321()
-    {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
-
-        $leach4321 = new CompositeMaterial();
-        $leach4321->setName("Leach 4321");
-        $leach4321->addMaterial($potash, 40);
-        $leach4321->addMaterial($silica, 30);
-        $leach4321->addMaterial($whiting, 20);
-        $leach4321->addMaterial($kaolin, 10);
-
-//        MaterialTxtView::printTxt($leach4321);
-
-        return array(
-            array($leach4321),
-        );
     }
 
     /**
@@ -141,6 +117,81 @@ class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($percent->getOxide(Analysis::CaO), $percent2x->getOxide(Analysis::CaO));
     }
 
+    /**
+     * Check the Analyses of a Composite Material composed of Composite Materials
+     */
+    public function testGetPercentageAnalysisBlend()
+    {
+        $leachPinnell = $this->providerLeachPinnell();
+
+        $percent = $leachPinnell->getPercentageAnalysis();
+
+        $this->assertEquals(60.64, round($percent->getOxide(Analysis::SiO2), 2));
+        $this->assertEquals(11.99, round($percent->getOxide(Analysis::Al2O3), 2));
+        $this->assertEquals(5.50, round($percent->getOxide(Analysis::K2O), 2));
+        $this->assertEquals(5.50, round($percent->getKNaO(), 2));
+        $this->assertEquals(11.22, round($percent->getOxide(Analysis::CaO), 2));
+        $this->assertEquals(10.66, round($percent->getLOI(), 2));
+    }
+
+    /**
+     * Check the Analyses of a Composite Material composed of Composite Materials
+     */
+    public function testGet100PercentageAnalysisBlend()
+    {
+        $leachPinnell = $this->providerLeachPinnell();
+
+        $percent100 = $leachPinnell->get100PercentPercentageAnalysis();
+
+        $this->assertEquals(67.87, round($percent100->getOxide(Analysis::SiO2), 2));
+        $this->assertEquals(13.41, round($percent100->getOxide(Analysis::Al2O3), 2));
+        $this->assertEquals(6.15, round($percent100->getOxide(Analysis::K2O), 2));
+        $this->assertEquals(6.15, round($percent100->getKNaO(), 2));
+        $this->assertEquals(12.56, round($percent100->getOxide(Analysis::CaO), 2));
+        $this->assertEquals(0, $percent100->getLOI());
+    }
+
+    /**
+     * Check the Analyses of a Composite Material composed of Composite Materials
+     */
+    public function testGetUmfAnalysisBlend()
+    {
+        $leachPinnell = $this->providerLeachPinnell();
+
+        $formula = $leachPinnell->getUmfAnalysis();
+
+        $this->assertEquals(3.905, round($formula->getOxide(Analysis::SiO2), 3));
+        $this->assertEquals(0.455, round($formula->getOxide(Analysis::Al2O3), 3));
+        $this->assertEquals(0.226, round($formula->getOxide(Analysis::K2O), 3));
+        $this->assertEquals(0.226, round($formula->getKNaO(), 3));
+        $this->assertEquals(0.774, round($formula->getOxide(Analysis::CaO), 3));
+        $this->assertEquals(345.686, round($formula->getFormulaWeight(), 3));
+    }
+
+    /*************************************************************************
+     * Data providers
+     *************************************************************************/
+
+    /*
+     *  The classic Leach 4321 recipe
+     */
+    public function providerLeach4321()
+    {
+        $potash = $this->providerPotash();
+        $silica = $this->providerSilica();
+        $whiting = $this->providerWhiting();
+        $kaolin = $this->providerKaolin();
+
+        $leach4321 = new CompositeMaterial();
+        $leach4321->setName("Leach 4321");
+        $leach4321->addMaterial($potash, 40);
+        $leach4321->addMaterial($silica, 30);
+        $leach4321->addMaterial($whiting, 20);
+        $leach4321->addMaterial($kaolin, 10);
+
+        return $leach4321;
+    }
+
     public function providerPinnellClear()
     {
         $potash = $this->providerPotash();
@@ -156,6 +207,19 @@ class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $pinnell->addMaterial($kaolin, 20);
 
         return $pinnell;
+    }
+
+    public function providerLeachPinnell()
+    {
+        $leach4321 = $this->providerLeach4321();
+        $pinnell = $this->providerPinnellClear();
+
+        $leachPinnell = new CompositeMaterial();
+        $leachPinnell->setName("MIX of Leach 4321 and Pinnell Clear");
+        $leachPinnell->addMaterial($leach4321, 50);
+        $leachPinnell->addMaterial($pinnell, 50);
+
+        return $leachPinnell;
     }
 
     public function providerPinnellClearDoubledAmounts()

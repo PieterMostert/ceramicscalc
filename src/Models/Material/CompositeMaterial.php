@@ -74,7 +74,8 @@ class CompositeMaterial extends AbstractMaterial {
             $amount = $materialComponent->getAmount();
             if ($material->isComposite())
             {
-                $this->traverseComponents($material->getMaterialComponents(), $flattenedComponents, $amount);
+                $componentMaterialComponents = $material->getMaterialComponents();
+                $this->traverseComponents($componentMaterialComponents, $flattenedComponents, $amount);
             }
             else
             {
