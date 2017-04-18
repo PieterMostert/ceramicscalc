@@ -5,7 +5,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace DerekPhilipAu\Ceramicscalc\Views\Txt\Analysis;
+namespace DerekPhilipAu\Ceramicscalc\Views\Txt\Blend;
 
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
 use DerekPhilipAu\Ceramicscalc\Views\Txt\Material\MaterialTxtView;

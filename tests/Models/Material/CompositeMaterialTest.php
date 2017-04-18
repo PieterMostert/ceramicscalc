@@ -5,14 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace DerekPhilipAu\Ceramicscalc\Test;
+namespace DerekPhilipAu\Ceramicscalc\Test\Models\Material;
 
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
-use DerekPhilipAu\Ceramicscalc\Models\Analysis\PercentageAnalysis;
-use DerekPhilipAu\Ceramicscalc\Models\Material\PrimitiveMaterial;
-use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
+use DerekPhilipAu\Ceramicscalc\Test\BaseCompositeMaterialTest;
 
-class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
+class CompositeMaterialTest extends BaseCompositeMaterialTest
 {
 
     public function testGetPercentageAnalysisLeach4321()
@@ -166,126 +164,6 @@ class CompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0.226, round($formula->getKNaO(), 3));
         $this->assertEquals(0.774, round($formula->getOxide(Analysis::CaO), 3));
         $this->assertEquals(345.686, round($formula->getFormulaWeight(), 3));
-    }
-
-    /*************************************************************************
-     * Data providers
-     *************************************************************************/
-
-    /*
-     *  The classic Leach 4321 recipe
-     */
-    public function providerLeach4321()
-    {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
-
-        $leach4321 = new CompositeMaterial();
-        $leach4321->setName("Leach 4321");
-        $leach4321->addMaterial($potash, 40);
-        $leach4321->addMaterial($silica, 30);
-        $leach4321->addMaterial($whiting, 20);
-        $leach4321->addMaterial($kaolin, 10);
-
-        return $leach4321;
-    }
-
-    public function providerPinnellClear()
-    {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
-
-        $pinnell = new CompositeMaterial();
-        $pinnell->setName("Pinnell Clear");
-        $pinnell->addMaterial($potash, 25);
-        $pinnell->addMaterial($silica, 35);
-        $pinnell->addMaterial($whiting, 20);
-        $pinnell->addMaterial($kaolin, 20);
-
-        return $pinnell;
-    }
-
-    public function providerLeachPinnell()
-    {
-        $leach4321 = $this->providerLeach4321();
-        $pinnell = $this->providerPinnellClear();
-
-        $leachPinnell = new CompositeMaterial();
-        $leachPinnell->setName("MIX of Leach 4321 and Pinnell Clear");
-        $leachPinnell->addMaterial($leach4321, 50);
-        $leachPinnell->addMaterial($pinnell, 50);
-
-        return $leachPinnell;
-    }
-
-    public function providerPinnellClearDoubledAmounts()
-    {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
-
-        $pinnell = new CompositeMaterial();
-        $pinnell->setName("Pinnell Clear Doubled Amounts");
-        $pinnell->addMaterial($potash, 50);
-        $pinnell->addMaterial($silica, 70);
-        $pinnell->addMaterial($whiting, 40);
-        $pinnell->addMaterial($kaolin, 40);
-
-        return $pinnell;
-    }
-
-    public function providerPotash()
-    {
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::K2O, 16.92);
-        $percent->setOxide(Analysis::Al2O3, 18.32);
-        $percent->setOxide(Analysis::SiO2, 64.76);
-        $potash = new PrimitiveMaterial(1);
-        $potash->setName("Potash Feldspar");
-        $potash->setPercentageAnalysis($percent);
-
-        return $potash;
-    }
-
-    public function providerSilica()
-    {
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::SiO2, 100);
-        $silica = new PrimitiveMaterial(2);
-        $silica->setName("Silica");
-        $silica->setPercentageAnalysis($percent);
-
-        return $silica;
-    }
-
-    public function providerWhiting()
-    {
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::CaO, 56.10);
-        $percent->setLOI(43.90);
-        $whiting = new PrimitiveMaterial(3);
-        $whiting->setName("Whiting");
-        $whiting->setPercentageAnalysis($percent);
-
-        return $whiting;
-    }
-
-    public function providerKaolin()
-    {
-        $percent = new PercentageAnalysis();
-        $percent->setOxide(Analysis::Al2O3, 40.21);
-        $percent->setOxide(Analysis::SiO2, 47.29);
-        $percent->setLOI(12.50);
-        $kaolin = new PrimitiveMaterial(4);
-        $kaolin->setName("Kaolin");
-        $kaolin->setPercentageAnalysis($percent);
-
-        return $kaolin;
     }
 }
 

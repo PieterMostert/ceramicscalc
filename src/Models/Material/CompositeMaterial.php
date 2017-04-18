@@ -104,6 +104,18 @@ class CompositeMaterial extends AbstractMaterial {
         return null;
 	}
 
+    public function getMaterialComponent($uniqueId)
+    {
+        foreach ($this->materialComponents as $materialRow)
+        {
+            if ($materialRow->hasMaterialUniqueId($uniqueId))
+            {
+                return $materialRow;
+            }
+        }
+        return null;
+    }
+
 	public function addMaterial(AbstractMaterial $material, $amount, $is_additional = false)
     {
 /*
