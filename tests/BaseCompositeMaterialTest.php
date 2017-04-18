@@ -92,7 +92,7 @@ abstract class BaseCompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $percent->setOxide(Analysis::K2O, 16.92);
         $percent->setOxide(Analysis::Al2O3, 18.32);
         $percent->setOxide(Analysis::SiO2, 64.76);
-        $potash = new PrimitiveMaterial(1);
+        $potash = new PrimitiveMaterial(self::MATERIAL_POTASH_ID);
         $potash->setName("Potash Feldspar");
         $potash->setPercentageAnalysis($percent);
 
@@ -103,7 +103,7 @@ abstract class BaseCompositeMaterialTest extends \PHPUnit_Framework_TestCase
     {
         $percent = new PercentageAnalysis();
         $percent->setOxide(Analysis::SiO2, 100);
-        $silica = new PrimitiveMaterial(2);
+        $silica = new PrimitiveMaterial(self::MATERIAL_SILICA_ID);
         $silica->setName("Silica");
         $silica->setPercentageAnalysis($percent);
 
@@ -115,7 +115,7 @@ abstract class BaseCompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $percent = new PercentageAnalysis();
         $percent->setOxide(Analysis::CaO, 56.10);
         $percent->setLOI(43.90);
-        $whiting = new PrimitiveMaterial(3);
+        $whiting = new PrimitiveMaterial(self::MATERIAL_WHITING_ID);
         $whiting->setName("Whiting");
         $whiting->setPercentageAnalysis($percent);
 
@@ -128,7 +128,7 @@ abstract class BaseCompositeMaterialTest extends \PHPUnit_Framework_TestCase
         $percent->setOxide(Analysis::Al2O3, 40.21);
         $percent->setOxide(Analysis::SiO2, 47.29);
         $percent->setLOI(12.50);
-        $kaolin = new PrimitiveMaterial(4);
+        $kaolin = new PrimitiveMaterial(self::MATERIAL_KAOLIN_ID);
         $kaolin->setName("Kaolin");
         $kaolin->setPercentageAnalysis($percent);
 
