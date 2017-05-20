@@ -95,45 +95,47 @@ class Analysis
 		self::SnO2,
     ];
 
+
+	// From CRC Handbook
     const MOLAR_MASS = [
-        self::SiO2  => 60.08439,
+        self::SiO2  => 60.085,
 
-        self::Al2O3 => 101.96137,
-        self::B2O3  => 69.6217,
+        self::Al2O3 => 101.961,
+        self::B2O3  => 69.620,
 
-        self::Li2O  => 29.8818,
-        self::Na2O  => 61.97897,
-        self::K2O   => 94.19605,
+        self::Li2O  => 29.881,
+        self::Na2O  => 61.979,
+        self::K2O   => 94.196,
 
-        self::BeO   => 25.01158,
-        self::MgO   => 40.30449,
-        self::CaO   => 56.0778,
-        self::SrO   => 103.6204,
-        self::BaO   => 153.3271,
+        self::BeO   => 25.011,
+        self::MgO   => 40.304,
+        self::CaO   => 56.077,
+        self::SrO   => 103.62,
+        self::BaO   => 153.326,
 
-        self::P2O5  => 141.94467,
+        self::P2O5  => 141.945,
 
-        self::TiO2  => 79.8660,
+        self::TiO2  => 79.866,
         self::ZrO   => 107.2234,
-        self::ZrO2  => 123.2231,
+        self::ZrO2  => 123.223,
 
-        self::V2O5  => 181.8800,
-        self::Cr2O3 => 151.99061,
-        self::MnO   => 70.93748,
-        self::MnO2  => 86.93691,
-        self::FeO   => 71.8446,
-        self::Fe2O3 => 159.6887,
-        self::CoO   => 74.93263,
-        self::NiO   => 74.69287,
-        self::CuO   => 79.5454,
-        self::Cu2O  => 143.0914,
-        self::CdO   => 128.4104,
+        self::V2O5  => 181.880,
+        self::Cr2O3 => 151.990,
+        self::MnO   => 70.937,
+        self::MnO2  => 86.937,
+        self::FeO   => 71.844,
+        self::Fe2O3 => 159.688,
+        self::CoO   => 74.932,
+        self::NiO   => 74.692,
+        self::CuO   => 79.545,
+        self::Cu2O  => 143.091,
+        self::CdO   => 128.410,
 
-        self::ZnO   => 81.3814,
+        self::ZnO   => 81.39,
 
-        self::F     => 18.998403,
-        self::PbO   => 223.2094,
-        self::SnO2  => 150.7096,
+        self::F     => 18.998,
+        self::PbO   => 223.2,
+        self::SnO2  => 150.709,
     ];
 
     const RO_R2O_OXIDES = [
