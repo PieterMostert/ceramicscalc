@@ -20,7 +20,6 @@ class LineBlendTest extends BaseCompositeMaterialTest
         $pinnell = $this->providerPinnellClear();
 
         $lineBlend = LineBlend::createLineBlend($leach4321, $pinnell, 10, 90, 10, 90, 10);
-//        LineBlendTxtView::printTxt($lineBlend);
 
         $this->assertEquals(9, count($lineBlend));
 
@@ -30,6 +29,15 @@ class LineBlendTest extends BaseCompositeMaterialTest
         $this->assertEquals(30.5, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
         $this->assertEquals(20, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
         $this->assertEquals(11, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
+
+        $leach40Pinnell60 = $lineBlend[5]->getSimplifiedMaterial();
+
+        $this->assertEquals(31, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
+        $this->assertEquals(33, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
+        $this->assertEquals(20, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
+        $this->assertEquals(16, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
+
+        LineBlendTxtView::printTxt($lineBlend);
     }
 
 }

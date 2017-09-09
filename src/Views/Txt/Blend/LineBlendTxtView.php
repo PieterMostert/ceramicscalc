@@ -18,7 +18,7 @@ class LineBlendTxtView
         $i = 0;
 		foreach ($lineBlend as $blendedMaterial)
         {
-            $str .= 'BLEND ' . $i . ":" . PHP_EOL;
+            $str .= PHP_EOL . 'BLEND ' . $i . ":" . PHP_EOL;
             $str .= MaterialTxtView::toString($blendedMaterial);
             $i++;
 		}

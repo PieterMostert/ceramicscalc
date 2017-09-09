@@ -12,7 +12,7 @@ use DerekPhilipAu\Ceramicscalc\Models\Analysis\PercentageAnalysis;
 use DerekPhilipAu\Ceramicscalc\Models\Material\PrimitiveMaterial;
 use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
 
-abstract class BaseCompositeMaterialTest extends \PHPUnit_Framework_TestCase
+abstract class BaseCompositeMaterialTest extends \PHPUnit\Framework\TestCase
 {
     const MATERIAL_POTASH_ID = 1;
     const MATERIAL_SILICA_ID = 2;

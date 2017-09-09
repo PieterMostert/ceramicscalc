@@ -7,11 +7,13 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Test\Models\Analysis;
 
-class AnalysisTest extends \PHPUnit_Framework_TestCase
+class AnalysisTest extends \PHPUnit\Framework\TestCase
 {
+    /*
     public function testTrueIsTrue()
     {
-        $foo = true;
+        $foo = false;
         $this->assertTrue($foo);
     }
+    */
 }

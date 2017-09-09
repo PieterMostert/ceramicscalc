@@ -16,13 +16,8 @@ use DerekPhilipAu\Ceramicscalc\Views\Txt\Analysis\AnalysisTxtView;
 use DerekPhilipAu\Ceramicscalc\Views\Txt\Analysis\LineBlendTxtView;
 use DerekPhilipAu\Ceramicscalc\Views\Txt\Material\MaterialTxtView;
 
-class Test extends \PHPUnit_Framework_TestCase
+class Test extends \PHPUnit\Framework\TestCase
 {
-    public function testTrueIsTrue()
-    {
-        $foo = true;
-        $this->assertTrue($foo);
-    }
 
 /*
     public function testLeach4321()

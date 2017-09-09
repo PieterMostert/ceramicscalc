@@ -53,7 +53,7 @@ class CompositeMaterialTest extends BaseCompositeMaterialTest
         $this->assertEquals(0.264, round($formula->getOxide(Analysis::K2O), 3));
         $this->assertEquals(0.264, round($formula->getKNaO(), 3));
         $this->assertEquals(0.736, round($formula->getOxide(Analysis::CaO), 3));
-        $this->assertEquals(330.858, round($formula->getFormulaWeight(), 3));
+        $this->assertEquals(330.855, round($formula->getFormulaWeight(), 3));
     }
 
     /**
@@ -163,7 +163,7 @@ class CompositeMaterialTest extends BaseCompositeMaterialTest
         $this->assertEquals(0.226, round($formula->getOxide(Analysis::K2O), 3));
         $this->assertEquals(0.226, round($formula->getKNaO(), 3));
         $this->assertEquals(0.774, round($formula->getOxide(Analysis::CaO), 3));
-        $this->assertEquals(345.686, round($formula->getFormulaWeight(), 3));
+        $this->assertEquals(345.682, round($formula->getFormulaWeight(), 3));
     }
 }
 
