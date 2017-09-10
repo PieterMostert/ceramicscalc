@@ -78,7 +78,7 @@ class CompositeMaterial extends AbstractMaterial {
      *
      * Part of the Composite pattern, by definition isComposite() always returns true for CompositeMaterials.
      */
-    public function isComposite()
+    public function isComposite() : bool
     {
         return true;
     }
@@ -94,7 +94,7 @@ class CompositeMaterial extends AbstractMaterial {
      *
      * Simply return the materials that this composite material contains.
      */
-    public function getMaterialComponents()
+    public function getMaterialComponents() : array
     {
         return $this->materialComponents;
     }
@@ -107,7 +107,7 @@ class CompositeMaterial extends AbstractMaterial {
      * contain two leaf nodes with Potash Feldspar.  A "simplified" material is a material that has been
      * flattened with identical materials combined.
      */
-    public function getSimplifiedMaterial()
+    public function getSimplifiedMaterial() : CompositeMaterial
     {
         $flattenedComponents = CompositeMaterial::getFlattenedMaterialComponents();
         $simplifiedMaterial = clone $this;
@@ -120,7 +120,7 @@ class CompositeMaterial extends AbstractMaterial {
      *
      * Helper function to flatten our composite material, combining materials that have the same unique ID.
      */
-    protected function getFlattenedMaterialComponents()
+    protected function getFlattenedMaterialComponents() : array
     {
         $flattenedComponents = array();
         $this->traverseComponents($this->materialComponents, $flattenedComponents, 100);
@@ -186,14 +186,14 @@ class CompositeMaterial extends AbstractMaterial {
      *
      * TODO:  The definition of the material count is not clear.
      */
-    public function getMaterialCount()
+    public function getMaterialCount() : int
 	{
 		return count($this->materialComponents);
 	}
 
     /**
      * @param $uniqueId
-     * @return null
+     * @return AbstractMaterial
      *
      * Find a material in the composite tree with the same unique ID.  Return null if no material is found.
      *
@@ -201,7 +201,7 @@ class CompositeMaterial extends AbstractMaterial {
      * unique ID.
      *
      */
-	public function getMaterial($uniqueId)
+	public function getMaterial($uniqueId) : AbstractMaterial
     {
         foreach ($this->materialComponents as $materialRow)
         {
@@ -222,7 +222,7 @@ class CompositeMaterial extends AbstractMaterial {
      * how much of a given material occurs in the parent material, and specifies whether or not the
      * component material is "additional".
      */
-    public function getMaterialComponent($uniqueId)
+    public function getMaterialComponent($uniqueId) : CompositeMaterialComponent
     {
         foreach ($this->materialComponents as $materialRow)
         {
@@ -238,13 +238,13 @@ class CompositeMaterial extends AbstractMaterial {
      * @param AbstractMaterial $material
      * @param $amount
      * @param bool $is_additional
-     * @return int
+     * @return int the updated $this->getMaterialCount()
      *
      * Add a material (either primitive or composite) to this composite material.
      * Update chemical analysis given the new ingredient.
      *
      */
-	public function addMaterial(AbstractMaterial $material, $amount, $is_additional = false)
+	public function addMaterial(AbstractMaterial $material, $amount, $is_additional = false) : int
     {
 /*
         if ($amount + $this->components_total_percentage > 100)
@@ -292,11 +292,11 @@ class CompositeMaterial extends AbstractMaterial {
     /**
      * @param AbstractMaterial $material
      * @param $amount
-     * @return int
+     * @return int the updated $this->getMaterialCount()
      *
      * Helper function to add an "additional" material, e.g. Red Iron Oxide
      */
-    public function addAdditionalMaterial(AbstractMaterial $material, $amount)
+    public function addAdditionalMaterial(AbstractMaterial $material, $amount) : int
     {
         return $this->addMaterial($material, $amount, true);
     }

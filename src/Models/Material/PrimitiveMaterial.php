@@ -39,7 +39,7 @@ class PrimitiveMaterial extends AbstractMaterial {
 	 * Part of the Composite Pattern.  A PrimitiveMaterial cannot be broken down into constituent parts.
 	 * Therefore, isComposite() always returns false.
      */
-	public function isComposite()
+	public function isComposite() : bool
 	{
 		return false;
 	}
@@ -54,7 +54,7 @@ class PrimitiveMaterial extends AbstractMaterial {
 	 *
 	 * "Primitive" materials are already in their simplest form, so we simply return a copy of this object.
      */
-	public function getSimplifiedMaterial()
+	public function getSimplifiedMaterial() : PrimitiveMaterial
 	{
 		return clone $this;
 	}
@@ -64,7 +64,7 @@ class PrimitiveMaterial extends AbstractMaterial {
 	 *
 	 * Part of the Composite pattern, getMaterialCount() for a PrimitiveMaterial will always return 1.
      */
-	function getMaterialCount()
+	function getMaterialCount() : int
 	{
 		return 1;
 	}

@@ -21,73 +21,136 @@ abstract class AbstractMaterial {
 	protected $percentageAnalysis; // PercentageAnalysis
     protected $formulaAnalysis; // Analysis
 
+    /**
+     * AbstractMaterial constructor.
+     *
+     * All materials always have an analysis
+     *
+     */
     public function __construct()
     {
         $this->percentageAnalysis = new PercentageAnalysis();
         $this->formulaAnalysis = new FormulaAnalysis();
     }
 
+    /**
+     * TODO: See if necessary in PHP 7
+     */
     public function __clone() {
         $this->percentageAnalysis = clone $this->percentageAnalysis;
         $this->formulaAnalysis = clone $this->formulaAnalysis;
     }
 
-    public abstract function isComposite();
+    /**
+     * @return bool
+     *
+     * Part of Composite pattern.  Return True if this is a CompositeMaterial,
+     * return false if this is a PrimitiveMaterial.
+     */
+    public abstract function isComposite() : bool;
+
+    /**
+     * @return mixed
+     *
+     * Returns a simplified material containing only a PrimitiveMaterial or
+     * CompositeMaterial that contains only PrimitiveMaterials.
+     *
+     */
     public abstract function getSimplifiedMaterial();
 
+    /**
+     * @return mixed
+     * TODO:  Think about how to implement this.
+     */
     function getUniqueId()
     {
         return $this->uniqueId;
     }
 
-    function setName($name)
+    /**
+     * @param string $name
+     *
+     * Set the name of this material
+     *
+     */
+    function setName(string $name)
     {
         $this->name = $name;
     }
 
+    /**
+     * @return string
+     *
+     * Return the name of this material
+     *
+     */
     function getName()
     {
         return $this->name;
     }
 
-    function setDescription($description)
+    /**
+     * @param string $description
+     */
+    function setDescription(string $description)
     {
         $this->description = $description;
     }
 
+    /**
+     * @return string
+     */
     function getDescription()
     {
         return $this->description;
     }
 
+    /**
+     * @param PercentageAnalysis $percentageAnalysis
+     */
     function setPercentageAnalysis(PercentageAnalysis $percentageAnalysis)
     {
         $this->percentageAnalysis = $percentageAnalysis;
         $this->formulaAnalysis = FormulaAnalysis::createNoUnityFormula($percentageAnalysis);
     }
 
-    function getPercentageAnalysis()
+    /**
+     * @return PercentageAnalysis
+     */
+    function getPercentageAnalysis() : PercentageAnalysis
     {
         return $this->percentageAnalysis;
     }
 
-    function get100PercentPercentageAnalysis()
+    /**
+     * @return PercentageAnalysis
+     */
+    function get100PercentPercentageAnalysis() : PercentageAnalysis
     {
         return PercentageAnalysis::create100PercentPercentageAnalysis($this->percentageAnalysis);
     }
 
+    /**
+     * @param FormulaAnalysis $formulaAnalysis
+     */
     function setFormulaAnalysis(FormulaAnalysis $formulaAnalysis)
     {
         $this->formulaAnalysis = $formulaAnalysis;
         $this->percentageAnalysis = PercentageAnalysis::createPercentageAnalysis($formulaAnalysis);
     }
 
-	function getFormulaAnalysis() // : Analysis
+    /**
+     * @return FormulaAnalysis
+     */
+	function getFormulaAnalysis() : FormulaAnalysis
     {
         return $this->formulaAnalysis;
     }
 
-    function getUmfAnalysis()
+    /**
+     * @return FormulaAnalysis
+     */
+    function getUmfAnalysis() : FormulaAnalysis
     {
         return FormulaAnalysis::createROR2OUnityFormulaAnalysis($this->percentageAnalysis);
     }

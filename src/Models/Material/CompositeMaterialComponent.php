@@ -7,47 +7,114 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Models\Material;
 
+/**
+ * Class CompositeMaterialComponent
+ * @package DerekPhilipAu\Ceramicscalc\Models\Material
+ *
+ * Given a typical recipe like "Leach 4321 Celadon":
+ *      40    Feldspar
+ *      30    Silica
+ *      20    Whiting
+ *      10    Kaolin
+ *      (100)
+ *      +1    Red Iron Oxide
+ *      (101)
+ *
+ * The recipe "Leach 4321 Celadon" is represented by a CompositeMaterial.
+ *
+ * Each component or "row" of this recipe is a CompositeMaterialComponent.
+ *
+ * A CompositeMaterialComponent contains:
+ *      - a material (either Primitive or Composite)
+ *      - a percentage amount (e.g. 40% Feldspar)
+ *      - whether or not the amount is "additional" (e.g. Red Iron Oxide)
+ *
+ * "Additional" is simply an attribute set by the user.  It does not in any
+ * way affect the chemical composition of the composite material.  Traditionally,
+ * coloring oxides and opacifiers are considered "additional" materials.
+ */
 class CompositeMaterialComponent {
 
+    /**
+     * @var The percentage amount of the material
+     */
     private $amount;
+
+    /**
+     * @var The material
+     */
 	private $material;
+
+    /**
+     * @var Whether or not this material is "additional"
+     */
     private $is_additional;
 
+    /**
+     * Make sure we deep-copy the component material.
+     *
+     * TODO: Check PHP 7 to see how this should be done, if at all.
+     */
     public function __clone() {
         $this->material = clone $this->material;
     }
 
-    public function setAmount($amount)
+    /**
+     * @param $amount
+     * Set the percentage amount of the material component
+     */
+    public function setAmount(float $amount)
     {
         $this->amount = $amount;
     }
 
-    public function getAmount()
+    /**
+     * @return float
+     *
+     * Return the component percentage amount
+     */
+    public function getAmount() : float
     {
         return $this->amount;
     }
 
+    /**
+     * @param AbstractMaterial $material
+     */
     public function setMaterial(AbstractMaterial $material)
     {
         $this->material = $material;
     }
 
-	public function getMaterial()
+    /**
+     * @return AbstractMaterial
+     */
+	public function getMaterial() : AbstractMaterial
 	{
         return $this->material;
 	}
 
-    public function setIsAdditional($is_additional)
+    /**
+     * @param bool $is_additional
+     */
+    public function setIsAdditional(bool $is_additional)
     {
         $this->is_additional = $is_additional;
     }
 
-    public function getIsAdditional()
+    /**
+     * @return bool
+     */
+    public function getIsAdditional() : bool
     {
         return $this->is_additional;
     }
 
-    public function hasMaterial(AbstractMaterial $material)
+    /**
+     * @param AbstractMaterial $material
+     * @return bool
+     */
+    public function hasMaterial(AbstractMaterial $material) : bool
     {
         if ($this->material->getUniqueId() == $material->getUniqueId())
         {
@@ -67,7 +134,11 @@ class CompositeMaterialComponent {
         return false;
     }
 
-    public function hasMaterialUniqueId($uniqueId)
+    /**
+     * @param $uniqueId
+     * @return bool
+     */
+    public function hasMaterialUniqueId($uniqueId) : bool
     {
         if ($this->material->getUniqueId() == $uniqueId)
         {
