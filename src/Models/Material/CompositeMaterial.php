@@ -10,23 +10,103 @@ namespace DerekPhilipAu\Ceramicscalc\Models\Material;
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\PercentageAnalysis;
 
+/**
+ * Class CompositeMaterial
+ * @package DerekPhilipAu\Ceramicscalc\Models\Material
+ *
+ * A class that represents a "composite" material, most often thought of as a "recipe".
+ *
+ * Recipes are usually composed of "primitive" materials, e.g. "Leach 4321":
+ *      40 Feldspar
+ *      30 Silica
+ *      20 Whiting
+ *      10 Kaolin
+ *
+ * Recipes can also be composed of other recipes, for example a mix between Leach 4321 & Pinnell Clear:
+ *
+ * 40/60 Leach/Pinnell Blend:
+ *
+ * 40.000% Leach 4321
+ *      40.000% Potash Feldspar
+ *      30.000% Silica
+ *      20.000% Whiting
+ *      10.000% Kaolin
+ * 60.000% Pinnell Clear
+ *      25.000% Potash Feldspar
+ *      35.000% Silica
+ *      20.000% Whiting
+ *      20.000% Kaolin
+ *
+ * In the above example, the constituent materials are themselves "composite" materials (recipes).
+ *
+ * For convenience, we can view this "composite" material that contains other composite materials in a simplified form:
+ *
+ * Simplified Composite Material representing 40/60 Leach/Pinnell Blend:
+ *      31.000% Potash Feldspar
+ *      33.000% Silica
+ *      20.000% Whiting
+ *      16.000% Kaolin
+ *
+ * In this "simplified" form, the original composite material has been flattened with leaves containing duplicate
+ * materials (such as Kaolin) combined into a single "ingredient".
+ *
+ * Chemically, this "simplified" material is equivalent to the original composite material.
+ *
+ */
 class CompositeMaterial extends AbstractMaterial {
 
+    /**
+     * @var float
+     *
+     * "Recipes" do not always add up to 100%.  Therefore a CompositeMaterial containing 10% Kaolin & 30% Feldspar (40%)
+     * is just as valid as one containing 50% Kaolin & 50% Feldspar (100%).
+     *
+     * $components_total_percentage simply keeps track of the total percentage contained by this material.
+     */
     private $components_total_percentage = 0.0;
+
+    /**
+     * @var array
+     *
+     * Part of the Composite patern, this array is used to store component materials, whether they be "primitive"
+     * or "composite" (i.e. consisting of other materials).
+     */
 	private $materialComponents = array();
 
+    /**
+     * @return bool
+     *
+     * Part of the Composite pattern, by definition isComposite() always returns true for CompositeMaterials.
+     */
     public function isComposite()
     {
         return true;
     }
 
+    /**
+     * TODO: Helper function to sort materials by amount, need better way to traverse materials based on
+     * different sorting variables.
+     */
     public function sortByAmount(){}
 
+    /**
+     * @return array
+     *
+     * Simply return the materials that this composite material contains.
+     */
     public function getMaterialComponents()
     {
         return $this->materialComponents;
     }
 
+    /**
+     * @return CompositeMaterial
+     *
+     * A "simplified" material is one that is not composed of multiple PrimitiveMaterials.  For example,
+     * a CompositeMaterial (or blend) of two recipes each containing proportions of Potash Feldspar will
+     * contain two leaf nodes with Potash Feldspar.  A "simplified" material is a material that has been
+     * flattened with identical materials combined.
+     */
     public function getSimplifiedMaterial()
     {
         $flattenedComponents = CompositeMaterial::getFlattenedMaterialComponents();
@@ -35,6 +115,11 @@ class CompositeMaterial extends AbstractMaterial {
         return $simplifiedMaterial;
     }
 
+    /**
+     * @return array
+     *
+     * Helper function to flatten our composite material, combining materials that have the same unique ID.
+     */
     protected function getFlattenedMaterialComponents()
     {
         $flattenedComponents = array();
@@ -66,6 +151,13 @@ class CompositeMaterial extends AbstractMaterial {
         return $consolidatedMaterialComponents;
     }
 
+    /**
+     * @param array $materialComponents
+     * @param array $flattenedComponents
+     * @param $percentage
+     *
+     * Helper function for getFlattenedMaterialComponents().  Recursively traverse the composite material.
+     */
     protected function traverseComponents(array &$materialComponents, array &$flattenedComponents, $percentage)
     {
         foreach($materialComponents as $materialComponent)
@@ -87,11 +179,28 @@ class CompositeMaterial extends AbstractMaterial {
         }
     }
 
+    /**
+     * @return int
+     *
+     * Currently only returns the count at the top-level of the tree.
+     *
+     * TODO:  The definition of the material count is not clear.
+     */
     public function getMaterialCount()
 	{
 		return count($this->materialComponents);
 	}
 
+    /**
+     * @param $uniqueId
+     * @return null
+     *
+     * Find a material in the composite tree with the same unique ID.  Return null if no material is found.
+     *
+     * TODO:  This does not take into account the occurrence of multiple component materials with the same
+     * unique ID.
+     *
+     */
 	public function getMaterial($uniqueId)
     {
         foreach ($this->materialComponents as $materialRow)
@@ -104,6 +213,15 @@ class CompositeMaterial extends AbstractMaterial {
         return null;
 	}
 
+    /**
+     * @param $uniqueId
+     * @return mixed|null
+     *
+     * Find a material in the composite tree with the same unique ID, returning the entire
+     * CompositeMaterialComponent.  A CompositeMaterialComponent contains information about
+     * how much of a given material occurs in the parent material, and specifies whether or not the
+     * component material is "additional".
+     */
     public function getMaterialComponent($uniqueId)
     {
         foreach ($this->materialComponents as $materialRow)
@@ -116,6 +234,16 @@ class CompositeMaterial extends AbstractMaterial {
         return null;
     }
 
+    /**
+     * @param AbstractMaterial $material
+     * @param $amount
+     * @param bool $is_additional
+     * @return int
+     *
+     * Add a material (either primitive or composite) to this composite material.
+     * Update chemical analysis given the new ingredient.
+     *
+     */
 	public function addMaterial(AbstractMaterial $material, $amount, $is_additional = false)
     {
 /*
@@ -161,23 +289,48 @@ class CompositeMaterial extends AbstractMaterial {
 		return $this->getMaterialCount();
 	}
 
+    /**
+     * @param AbstractMaterial $material
+     * @param $amount
+     * @return int
+     *
+     * Helper function to add an "additional" material, e.g. Red Iron Oxide
+     */
     public function addAdditionalMaterial(AbstractMaterial $material, $amount)
     {
         return $this->addMaterial($material, $amount, true);
     }
 
-
+    /**
+     * @param $materialComponents
+     *
+     * Swap out the material components and re-calculate.
+     */
     protected function replaceMaterialComponents($materialComponents)
     {
         $this->materialComponents = $materialComponents;
         $this->update();
     }
 
+    /**
+     * @param AbstractMaterial $remove
+     *
+     * Remove a material by unique ID.
+     *
+     * TODO:  Unsure of how I decided to handle duplicates.
+     */
 	public function removeMaterial(AbstractMaterial $remove)
     {
         $this->removeMaterialByUniqueId($remove->getUniqueId());
     }
 
+    /**
+     * @param $uniqueId
+     *
+     * Helper function for removeMaterial(AbstractMaterial $remove)
+     *
+     * TODO:  Really need to decide if we're traversing entire tree or not!
+     */
     public function removeMaterialByUniqueId($uniqueId) {
 
         foreach ($this->materialComponents as $key => $materialRow)
@@ -203,12 +356,31 @@ class CompositeMaterial extends AbstractMaterial {
         $this->update();
     }
 
+    /**
+     * Typically called when a composite material's components have been modified,
+     * update() re-calculates the total percentages as well as the chemical analysis.
+     */
     protected function update()
     {
         $this->recalculateTotalPercentageAmount();
         $this->recalculateAnalysis();
     }
 
+    /**
+     * Helper function for update()
+     */
+    protected function recalculateTotalPercentageAmount()
+    {
+        $this->components_total_percentage = 0.0;
+        foreach ($this->materialComponents as $materialComponent)
+        {
+            $this->components_total_percentage += $materialComponent->getAmount();
+        }
+    }
+
+    /**
+     * Helper function for update()
+     */
     protected function recalculateAnalysis()
     {
         $totalPercentages = new PercentageAnalysis();
@@ -235,16 +407,6 @@ class CompositeMaterial extends AbstractMaterial {
         
         $this->setPercentageAnalysis($totalPercentages);
     }
-
-    protected function recalculateTotalPercentageAmount()
-    {
-        $this->components_total_percentage = 0.0;
-        foreach ($this->materialComponents as $materialComponent)
-        {
-            $this->components_total_percentage += $materialComponent->getAmount();
-        }
-    }
-
 
 }
 
