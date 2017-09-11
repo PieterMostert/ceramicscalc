@@ -10,9 +10,28 @@ namespace DerekPhilipAu\Ceramicscalc\Models\Blend;
 use DerekPhilipAu\Ceramicscalc\Models\Material\AbstractMaterial;
 use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
 
+/**
+ * Class LineBlend
+ * @package DerekPhilipAu\Ceramicscalc\Models\Blend
+ *
+ * This is just a basic implementation of a class to help make line blends.
+ *
+ * In the future, triaxial and biaxial blends should be added.
+ */
 class LineBlend {
 
-
+    /**
+     * @param AbstractMaterial $firstMaterial
+     * @param AbstractMaterial $secondMaterial
+     * @param $first_minimum_percent
+     * @param $first_maximum_percent
+     * @param $second_minimum_percent
+     * @param $second_maximum_percent
+     * @param $step_percentage
+     * @return array
+	 *
+	 * Return an array containing each blended CompositeMaterial in the line blend.
+     */
 	public static function createLineBlend(
 		AbstractMaterial $firstMaterial,
 		AbstractMaterial $secondMaterial,
@@ -20,17 +39,17 @@ class LineBlend {
 		$first_maximum_percent,
 		$second_minimum_percent,
 		$second_maximum_percent,
-		$step_percentage)
+		$step_percentage) : array
 	{
 		$blends = array();
 
 		if (empty($firstMaterial))
 		{
-			throw new Exception('First Glazy empty.');
+			throw new Exception('First Glaze empty.');
 		}
 		if (empty($secondMaterial))
 		{
-			throw new Exception('Second Glazy empty.');
+			throw new Exception('Second Glaze empty.');
 		}
 		if ($first_minimum_percent > $first_maximum_percent)
 		{

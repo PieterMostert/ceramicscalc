@@ -7,9 +7,23 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Models\Analysis;
 
+/**
+ * Class Analysis
+ * @package DerekPhilipAu\Ceramicscalc\Models\Analysis
+ *
+ * This is the parent class for FormulaAnalysis & PercentageAnalysis.
+ *
+ * This class contains methods for storing and retrieving a list of oxide values.
+ *
+ * This class also defines ALL oxides & molar masses supported by the software.
+ */
 class Analysis
 {
     const EPSILON = 0.00001;
+
+    /**
+     * The following constants define ALL oxides supported by this software.
+     */
 
 	const SiO2 = 'SiO2';
 
@@ -54,6 +68,11 @@ class Analysis
 	const PbO = 'PbO';
 	const SnO2 = 'SnO2';
 
+    /**
+     * Helper array to store names of all oxides.
+	 *
+	 * These oxides are listed in the order in which they are usually displayed in interfaces.
+     */
 	const OXIDE_NAMES = [
 		self::SiO2,
 
@@ -95,8 +114,12 @@ class Analysis
 		self::SnO2,
     ];
 
-
-	// From CRC Handbook
+    /**
+	 * All molar masses come from the CRC Handbook.
+	 *
+	 * It is hoped that all glaze software will standardize on a specific set of molar masses
+	 * to make testing and verification between systems easier.
+     */
     const MOLAR_MASS = [
         self::SiO2  => 60.085,
 
@@ -138,6 +161,11 @@ class Analysis
         self::SnO2  => 150.709,
     ];
 
+    /**
+     * Oxide groups used for unity calculations.
+	 *
+	 * There is still debate as to which oxides should be listed in the RO/R2O oxide group.
+     */
     const RO_R2O_OXIDES = [
 		self::PbO,
 		self::Na2O,
@@ -178,12 +206,20 @@ class Analysis
 		self::ZrO,
     ];
 
+    /**
+     * @var array
+	 *
+	 * The oxide list for this analysis.
+     */
 	protected $oxides = array();
 
     public function __construct() {
         $this->initOxides();
     }
-    
+
+    /**
+     * Sets all oxides in the private oxide list to 0.0
+     */
     protected function initOxides()
     {
         foreach (self::OXIDE_NAMES as $index=> $name) {
@@ -191,15 +227,31 @@ class Analysis
         }
     }
 
+    /**
+     * @return array
+	 *
+	 * Return the list of supported oxide names.
+     */
     public static function getOxideNames() {
         return self::OXIDE_NAMES;
 	}
 
+    /**
+     * @return array
+	 *
+	 * Return the list of molar masses used by this software.
+     */
     public static function getMolarMasses() {
         return self::MOLAR_MASS;
     }
 
-    public function setOxide($name, $value) {
+    /**
+     * @param $name
+     * @param $value
+	 *
+	 * Set the value of an oxide.
+     */
+    public function setOxide(string $name, float $value) {
 		// Verify that the oxide is supported
 		if (array_search($name, self::OXIDE_NAMES) === false) {
 			throw new Exception('Oxide '.$name.' is not supported.');
@@ -209,7 +261,13 @@ class Analysis
 		$this->oxides[$name] = $value;
 	}
 
-	public function getOxide($name) {
+    /**
+     * @param string $name
+     * @return mixed|null
+	 *
+	 * Return the oxide value specified by $name
+     */
+	public function getOxide(string $name) {
 		// Verify that the oxide is supported
 
 		if (array_search($name, self::OXIDE_NAMES) === false) {
@@ -222,11 +280,21 @@ class Analysis
 		return null;
 	}
 
+    /**
+     * @return mixed
+	 *
+	 * KNaO is the combined value of K2O and Na2O.
+     */
 	public function getKNaO() {
 		return $this->oxides[self::K2O] + $this->oxides[self::Na2O];
 	}
 
-    protected function setOxides($oxides) {
+    /**
+     * @param array $oxides
+	 *
+	 * Automatically set oxides in this analysis using an array of name/value pairs.
+     */
+    protected function setOxides(array $oxides) {
         if (!is_array($oxides)) {
             throw new Exception('Argument must be an array of oxides.');
         }
@@ -238,6 +306,8 @@ class Analysis
             }
         }
 
+        // By calling this method we are overwriting ALL oxide values,
+		// even if some oxides are not listed in the passed array argument.
         $this->initOxides();
 
         // Insert oxide values into our list
@@ -246,7 +316,12 @@ class Analysis
         }
     }
 
-    public function getOxides() {
+    /**
+     * @return array
+	 *
+	 * Return this analysis' list of oxide values.
+     */
+    public function getOxides() : array {
         return $this->oxides;
     }
 
