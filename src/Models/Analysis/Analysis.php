@@ -115,10 +115,12 @@ class Analysis
     ];
 
     /**
-	 * All molar masses come from the CRC Handbook.
+	 * All molar masses come from the CRC Handbook of Chemistry and Physics.
 	 *
 	 * It is hoped that all glaze software will standardize on a specific set of molar masses
 	 * to make testing and verification between systems easier.
+	 *
+	 * https://books.google.com/books?id=VVezDAAAQBAJ
      */
     const MOLAR_MASS = [
         self::SiO2  => 60.085,

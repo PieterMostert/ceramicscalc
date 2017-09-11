@@ -90,6 +90,15 @@ class FormulaAnalysis extends Analysis
         return $formula;
     }
 
+    /**
+     * @param $percentageAnalysis
+     * @return FormulaAnalysis
+     *
+     * This is an old attempt to automatically guess the correct group to unify on based on
+     * prevalence of oxides in the analysis.
+     *
+     * TODO: Refine
+     */
     public static function createAutomaticUnityFormula($percentageAnalysis)
     {
         $ror2o_total = 0.0;
