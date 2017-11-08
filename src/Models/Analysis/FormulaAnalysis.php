@@ -39,16 +39,16 @@ class FormulaAnalysis extends Analysis
 
     public function getFormulaWeight()
     {
-        $formula_weight = 0.0;
+        $formulaWeight = 0.0;
 
         foreach (Analysis::OXIDE_NAMES as $name) {
             if ($this->getOxide($name) > Analysis::EPSILON)
             {
-                $formula_weight += $this->getOxide($name) * Analysis::MOLAR_MASS[$name];
+                $formulaWeight += $this->getOxide($name) * Analysis::MOLAR_MASS[$name];
             }
         }
 
-        return $formula_weight;
+        return $formulaWeight;
     }
 
     public static function createNoUnityFormula($percentageAnalysis)
@@ -66,23 +66,23 @@ class FormulaAnalysis extends Analysis
         return $formula;
     }
 
-    public static function createMolePercentageFormula(FormulaAnalysis $raw_formula)
+    public static function createMolePercentageFormula(FormulaAnalysis $rawFormula)
     {
-        $formula_total = 0.0;
+        $formulaTotal = 0.0;
         $formula = new FormulaAnalysis();
 
         foreach (self::OXIDE_NAMES as $name)
         {
-            $formula_total += $raw_formula->getOxide($name);
+            $formulaTotal += $rawFormula->getOxide($name);
         }
 
-        if ($formula_total > 0)
+        if ($formulaTotal > 0)
         {
             foreach (self::OXIDE_NAMES as $name)
             {
                 $formula->setOxide(
                     $name,
-                    $raw_formula->getOxide($name) / $formula_total * 100
+                    $rawFormula->getOxide($name) / $formulaTotal * 100
                 );
             }
         }
@@ -101,55 +101,55 @@ class FormulaAnalysis extends Analysis
      */
     public static function createAutomaticUnityFormula($percentageAnalysis)
     {
-        $ror2o_total = 0.0;
+        $ror2oTotal = 0.0;
 
         foreach (self::RO_R2O_OXIDES as $name)
         {
-            $ror2o_total += $percentageAnalysis->getOxide($name);
+            $ror2oTotal += $percentageAnalysis->getOxide($name);
         }
 
         // TODO: 10 is arbitrary
-        if ($ror2o_total > 10)
+        if ($ror2oTotal > 10)
         {
             // create a ROR2O unity
             return self::createROR2OUnityFormulaAnalysis($percentageAnalysis);
         }
 
-        $r2o3_total = 0.0;
+        $r2o3Total = 0.0;
 
         foreach (self::R2O3_OXIDES as $name)
         {
-            $r2o3_total += $percentageAnalysis->getOxide($name);
+            $r2o3Total += $percentageAnalysis->getOxide($name);
         }
 
-        if ($r2o3_total > self::EPSILON)
+        if ($r2o3Total > self::EPSILON)
         {
             return self::createR2O3UnityFormulaAnalysis($percentageAnalysis);
         }
         else
         {
-            $largest_oxide = 0.0;
+            $largestOxide = 0.0;
 
             foreach (self::OXIDE_NAMES as $name)
             {
                 $mass = $percentageAnalysis->getOxide($name) / self::MOLAR_MASS[$name];
 
-                if ($mass > $largest_oxide)
+                if ($mass > $largestOxide)
                 {
-                    $largest_oxide = $mass;
+                    $largestOxide = $mass;
                 }
             }
 
-            return self::createUnityFormula($percentageAnalysis, $largest_oxide);
+            return self::createUnityFormula($percentageAnalysis, $largestOxide);
         }
     }
 
 
-    public static function createUnityFormula($percentageAnalysis, $unity_amount)
+    public static function createUnityFormula($percentageAnalysis, $unityAmount)
     {
         $formula = new FormulaAnalysis;
 
-        if ($unity_amount < self::EPSILON)
+        if ($unityAmount < self::EPSILON)
         {
             return $formula;
         }
@@ -158,7 +158,7 @@ class FormulaAnalysis extends Analysis
         {
             $formula->setOxide(
                 $name,
-                $percentageAnalysis->getOxide($name) / self::MOLAR_MASS[$name] / $unity_amount
+                $percentageAnalysis->getOxide($name) / self::MOLAR_MASS[$name] / $unityAmount
             );
         }
 

@@ -61,9 +61,9 @@ class CompositeMaterial extends AbstractMaterial {
      * "Recipes" do not always add up to 100%.  Therefore a CompositeMaterial containing 10% Kaolin & 30% Feldspar (40%)
      * is just as valid as one containing 50% Kaolin & 50% Feldspar (100%).
      *
-     * $components_total_percentage simply keeps track of the total percentage contained by this material.
+     * $componentsTotalPercentage simply keeps track of the total percentage contained by this material.
      */
-    private $components_total_percentage = 0.0;
+    private $componentsTotalPercentage = 0.0;
 
     /**
      * @var array
@@ -237,17 +237,17 @@ class CompositeMaterial extends AbstractMaterial {
     /**
      * @param AbstractMaterial $material
      * @param $amount
-     * @param bool $is_additional
+     * @param bool $isAdditional
      * @return int the updated $this->getMaterialCount()
      *
      * Add a material (either primitive or composite) to this composite material.
      * Update chemical analysis given the new ingredient.
      *
      */
-	public function addMaterial(AbstractMaterial $material, $amount, $is_additional = false) : int
+	public function addMaterial(AbstractMaterial $material, $amount, $isAdditional = false) : int
     {
 /*
-        if ($amount + $this->components_total_percentage > 100)
+        if ($amount + $this->componentsTotalPercentage > 100)
         {
             throw new Exception('CompositeMaterial requires component material amounts in percentages, with total not exceeding 100%');
         }
@@ -255,7 +255,7 @@ class CompositeMaterial extends AbstractMaterial {
         $materialRow = new CompositeMaterialComponent();
         $materialRow->setMaterial($material);
         $materialRow->setAmount($amount);
-        $materialRow->setIsAdditional($is_additional);
+        $materialRow->setIsAdditional($isAdditional);
 
 		$this->materialComponents[] = $materialRow;
 
@@ -266,10 +266,10 @@ class CompositeMaterial extends AbstractMaterial {
         $percentage = 100 - $loi;
         // DAU:  Bug- divide by zero
         if ($percentage > 0.00001) {
-            $this->analysis->setOxide($oxide_name, ((GlazyMolarMassList::$weights[$oxide_name] * $formula_weight) / $this->formula_weight * $percentage));
+            $this->analysis->setOxide($oxideName, ((GlazyMolarMassList::$weights[$oxideName] * $formulaWeight) / $this->formulaWeight * $percentage));
         }
         else {
-            $this->analysis->setOxide($oxide_name, 0);
+            $this->analysis->setOxide($oxideName, 0);
         }
 */
 
@@ -371,10 +371,10 @@ class CompositeMaterial extends AbstractMaterial {
      */
     protected function recalculateTotalPercentageAmount()
     {
-        $this->components_total_percentage = 0.0;
+        $this->componentsTotalPercentage = 0.0;
         foreach ($this->materialComponents as $materialComponent)
         {
-            $this->components_total_percentage += $materialComponent->getAmount();
+            $this->componentsTotalPercentage += $materialComponent->getAmount();
         }
     }
 
@@ -395,11 +395,11 @@ class CompositeMaterial extends AbstractMaterial {
             foreach (Analysis::OXIDE_NAMES as $name)
             {
                 $subtotal = $totalPercentages->getOxide($name) +
-                    ($materialPercentages->getOxide($name) * $amount / $this->components_total_percentage);
+                    ($materialPercentages->getOxide($name) * $amount / $this->componentsTotalPercentage);
                 $totalPercentages->setOxide($name, $subtotal);
             }
 
-            $newLoi = $totalPercentages->getLOI() + ($materialPercentages->getLOI() * $amount / $this->components_total_percentage);
+            $newLoi = $totalPercentages->getLOI() + ($materialPercentages->getLOI() * $amount / $this->componentsTotalPercentage);
 
             $totalPercentages->setLOI($newLoi);
 

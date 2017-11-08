@@ -49,16 +49,16 @@ class PercentageAnalysis extends Analysis
      */
     public static function createPercentageAnalysis(FormulaAnalysis $formulaAnalysis)
     {
-        $total_weight = 0.0;
+        $totalWeight = 0.0;
 
         $percentageAnalysis = new PercentageAnalysis();
 
         // Calculate the total formula weight
         foreach (self::OXIDE_NAMES as $name) {
-            $total_weight += self::MOLAR_MASS[$name] * $formulaAnalysis->getOxide($name);
+            $totalWeight += self::MOLAR_MASS[$name] * $formulaAnalysis->getOxide($name);
         }
 
-        if ($total_weight < self::EPSILON)
+        if ($totalWeight < self::EPSILON)
         {
             return $percentageAnalysis;
         }
@@ -66,7 +66,7 @@ class PercentageAnalysis extends Analysis
         foreach (self::OXIDE_NAMES as $name) {
             $percentageAnalysis->setOxide(
                 $name,
-                self::MOLAR_MASS[$name] * $formulaAnalysis->getOxide($name) / $total_weight * 100
+                self::MOLAR_MASS[$name] * $formulaAnalysis->getOxide($name) / $totalWeight * 100
             );
         }
 

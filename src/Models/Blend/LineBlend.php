@@ -23,11 +23,11 @@ class LineBlend {
     /**
      * @param AbstractMaterial $firstMaterial
      * @param AbstractMaterial $secondMaterial
-     * @param $first_minimum_percent
-     * @param $first_maximum_percent
-     * @param $second_minimum_percent
-     * @param $second_maximum_percent
-     * @param $step_percentage
+     * @param $firstMinimumPercent
+     * @param $firstMaximumPercent
+     * @param $secondMinimumPercent
+     * @param $secondMaximumPercent
+     * @param $stepPercentage
      * @return array
 	 *
 	 * Return an array containing each blended CompositeMaterial in the line blend.
@@ -35,11 +35,11 @@ class LineBlend {
 	public static function createLineBlend(
 		AbstractMaterial $firstMaterial,
 		AbstractMaterial $secondMaterial,
-		$first_minimum_percent,
-		$first_maximum_percent,
-		$second_minimum_percent,
-		$second_maximum_percent,
-		$step_percentage) : array
+		$firstMinimumPercent,
+		$firstMaximumPercent,
+		$secondMinimumPercent,
+		$secondMaximumPercent,
+		$stepPercentage) : array
 	{
 		$blends = array();
 
@@ -51,37 +51,37 @@ class LineBlend {
 		{
 			throw new Exception('Second Glaze empty.');
 		}
-		if ($first_minimum_percent > $first_maximum_percent)
+		if ($firstMinimumPercent > $firstMaximumPercent)
 		{
 			throw new Exception('Line Blend first material minimum percentage must be less than maximum percentage.');
 		}
-		if ($second_minimum_percent > $second_maximum_percent)
+		if ($secondMinimumPercent > $secondMaximumPercent)
 		{
 			throw new Exception('Line Blend second material minimum percentage must be less than maximum percentage.');
 		}
 
-		$current_first_percentage = $first_maximum_percent;
-		$current_second_percentage = 100 - $current_first_percentage;
+		$currentFirstPercentage = $firstMaximumPercent;
+		$currentSecondPercentage = 100 - $currentFirstPercentage;
 
 		while (
-			$current_first_percentage <= $first_maximum_percent &&
-			$current_first_percentage >= $first_minimum_percent &&
-			$current_second_percentage <= $second_maximum_percent &&
-			$current_second_percentage >= $second_minimum_percent &&
-			$current_first_percentage <= 100 &&
-			$current_first_percentage >= 0 &&
-			$current_second_percentage <= 100 &&
-			$current_second_percentage >= 0
+			$currentFirstPercentage <= $firstMaximumPercent &&
+			$currentFirstPercentage >= $firstMinimumPercent &&
+			$currentSecondPercentage <= $secondMaximumPercent &&
+			$currentSecondPercentage >= $secondMinimumPercent &&
+			$currentFirstPercentage <= 100 &&
+			$currentFirstPercentage >= 0 &&
+			$currentSecondPercentage <= 100 &&
+			$currentSecondPercentage >= 0
 		)
 		{
 			$blend = new CompositeMaterial();
-			$blend->addMaterial($firstMaterial, $current_first_percentage);
-			$blend->addMaterial($secondMaterial, $current_second_percentage);
+			$blend->addMaterial($firstMaterial, $currentFirstPercentage);
+			$blend->addMaterial($secondMaterial, $currentSecondPercentage);
 
 			$blends[] = $blend;
 
-			$current_first_percentage -= $step_percentage;
-			$current_second_percentage = 100 - $current_first_percentage;
+			$currentFirstPercentage -= $stepPercentage;
+			$currentSecondPercentage = 100 - $currentFirstPercentage;
 		}
 
 		return $blends;

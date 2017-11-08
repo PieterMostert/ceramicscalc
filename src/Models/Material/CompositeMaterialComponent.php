@@ -48,7 +48,7 @@ class CompositeMaterialComponent {
     /**
      * @var Whether or not this material is "additional"
      */
-    private $is_additional;
+    private $isAdditional;
 
     /**
      * Make sure we deep-copy the component material.
@@ -95,11 +95,11 @@ class CompositeMaterialComponent {
 	}
 
     /**
-     * @param bool $is_additional
+     * @param bool $isAdditional
      */
-    public function setIsAdditional(bool $is_additional)
+    public function setIsAdditional(bool $isAdditional)
     {
-        $this->is_additional = $is_additional;
+        $this->isAdditional = $isAdditional;
     }
 
     /**
@@ -107,7 +107,7 @@ class CompositeMaterialComponent {
      */
     public function getIsAdditional() : bool
     {
-        return $this->is_additional;
+        return $this->isAdditional;
     }
 
     /**
