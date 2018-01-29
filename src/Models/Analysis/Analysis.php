@@ -296,7 +296,7 @@ class Analysis
 	 *
 	 * Automatically set oxides in this analysis using an array of name/value pairs.
      */
-    protected function setOxides(array $oxides) {
+    public function setOxides(array $oxides) {
         if (!is_array($oxides)) {
             throw new Exception('Argument must be an array of oxides.');
         }
