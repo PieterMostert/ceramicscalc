@@ -314,7 +314,9 @@ class Analysis
 
         // Insert oxide values into our list
         foreach ($oxides as $name=>$value) {
-            $this->oxides[$name] = $value;
+            if (is_numeric($value)) {
+                $this->oxides[$name] = $value;
+            }
         }
     }
 
