@@ -47,7 +47,7 @@ class PercentageAnalysis extends Analysis
      * @throws Exception
      *
      */
-    public static function createPercentageAnalysis(FormulaAnalysis $formulaAnalysis)
+    public static function createPercentageAnalysis(FormulaAnalysis $formulaAnalysis, $loi = 0)
     {
         $totalWeight = 0.0;
 
@@ -66,10 +66,12 @@ class PercentageAnalysis extends Analysis
         foreach (self::OXIDE_NAMES as $name) {
             $percentageAnalysis->setOxide(
                 $name,
-                self::MOLAR_MASS[$name] * $formulaAnalysis->getOxide($name) / $totalWeight * 100
+                self::MOLAR_MASS[$name] * $formulaAnalysis->getOxide($name) / $totalWeight * (100 - $loi)
             );
         }
 
+        $percentageAnalysis->setLOI($loi);
+        
         return $percentageAnalysis;
     }
 

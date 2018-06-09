@@ -107,7 +107,7 @@ class CompositeMaterial extends AbstractMaterial {
      * contain two leaf nodes with Potash Feldspar.  A "simplified" material is a material that has been
      * flattened with identical materials combined.
      */
-    public function getSimplifiedMaterial() : CompositeMaterial
+    public function getSimplifiedMaterial() : AbstractMaterial
     {
         $flattenedComponents = CompositeMaterial::getFlattenedMaterialComponents();
         $simplifiedMaterial = clone $this;

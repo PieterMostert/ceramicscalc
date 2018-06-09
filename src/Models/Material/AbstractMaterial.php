@@ -16,7 +16,7 @@ abstract class AbstractMaterial {
 	protected $name;
 	protected $description;
 
-	protected $loi = 0.0;
+	// protected $loi = 0.0;
 
 	protected $percentageAnalysis; // PercentageAnalysis
     protected $formulaAnalysis; // Analysis
@@ -56,7 +56,7 @@ abstract class AbstractMaterial {
      * CompositeMaterial that contains only PrimitiveMaterials.
      *
      */
-    public abstract function getSimplifiedMaterial();
+    public abstract function getSimplifiedMaterial() : AbstractMaterial;
 
     /**
      * @return mixed
@@ -133,10 +133,10 @@ abstract class AbstractMaterial {
     /**
      * @param FormulaAnalysis $formulaAnalysis
      */
-    function setFormulaAnalysis(FormulaAnalysis $formulaAnalysis)
+    function setFormulaAnalysis(FormulaAnalysis $formulaAnalysis, $loi = 0)
     {
         $this->formulaAnalysis = $formulaAnalysis;
-        $this->percentageAnalysis = PercentageAnalysis::createPercentageAnalysis($formulaAnalysis);
+        $this->percentageAnalysis = PercentageAnalysis::createPercentageAnalysis($formulaAnalysis, $loi);
     }
 
     /**

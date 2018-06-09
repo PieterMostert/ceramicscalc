@@ -12,22 +12,32 @@ use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
 class AnalysisTest extends \PHPUnit\Framework\TestCase
 {
 
+    public function testConstructor() {
+        // Constructor should initialize oxide value array to 0 for each oxide.
+        $analysis = new Analysis();
+        $this->assertEquals(0, $analysis->getOxide(Analysis::SiO2));
+        $this->assertEquals(0, $analysis->getOxide(Analysis::ZrO2));
+        $this->assertEquals(0, $analysis->getOxide(Analysis::SnO2));
+    }
+
     public function testGetOxideNames() {
         $oxide_names = Analysis::getOxideNames();
         $this->assertEquals(30, count($oxide_names));
+        $this->assertEquals(Analysis::SiO2, $oxide_names[0]);
     }
 
     public function testGetMolarMasses() {
         $masses = Analysis::getMolarMasses();
         $this->assertEquals(30, count($masses));
+        $this->assertEquals(60.085, $masses[Analysis::SiO2]);
     }
 
     public function testSetOxide() {
         $analysis = new Analysis();
         $analysis->setOxide(Analysis::SiO2, 50);
-        $sio2 = $analysis->getOxide(Analysis::SiO2);
-        $this->assertEquals(50, $sio2);
-
+        $analysis->setOxide(Analysis::ZrO2, 22.2222);
+        $this->assertEquals(50, $analysis->getOxide(Analysis::SiO2));
+        $this->assertEquals(22.2222, $analysis->getOxide(Analysis::ZrO2));
         $this->assertEquals(0, $analysis->getOxide(Analysis::Al2O3));
     }
 
@@ -35,8 +45,10 @@ class AnalysisTest extends \PHPUnit\Framework\TestCase
         $analysis = new Analysis();
         $analysis->setOxide(Analysis::K2O, 10);
         $analysis->setOxide(Analysis::Na2O, 10);
-
         $this->assertEquals(20, $analysis->getKNaO());
+        $analysis->setOxide(Analysis::K2O, 1.11);
+        $analysis->setOxide(Analysis::Na2O, 2.22);
+        $this->assertEquals(3.33, $analysis->getKNaO());
     }
 
     public function testGetOxides() {

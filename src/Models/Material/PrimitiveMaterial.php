@@ -30,6 +30,8 @@ class PrimitiveMaterial extends AbstractMaterial {
      */
 	public function __construct($uniqueId)
 	{
+		// AbstractMaterial's constructor must be manually called:
+		parent::__construct();
 		$this->uniqueId = $uniqueId;
 	}
 
@@ -54,7 +56,7 @@ class PrimitiveMaterial extends AbstractMaterial {
 	 *
 	 * "Primitive" materials are already in their simplest form, so we simply return a copy of this object.
      */
-	public function getSimplifiedMaterial() : PrimitiveMaterial
+	public function getSimplifiedMaterial() : AbstractMaterial
 	{
 		return clone $this;
 	}
