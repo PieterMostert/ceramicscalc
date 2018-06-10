@@ -108,10 +108,21 @@ abstract class AbstractMaterial {
     /**
      * @param PercentageAnalysis $percentageAnalysis
      */
-    function setPercentageAnalysis(PercentageAnalysis $percentageAnalysis)
+    function setPercentageAnalysis(PercentageAnalysis $percentageAnalysis, $formulaUnityType = 'none')
     {
         $this->percentageAnalysis = $percentageAnalysis;
-        $this->formulaAnalysis = FormulaAnalysis::createNoUnityFormula($percentageAnalysis);
+        if ($formulaUnityType === FormulaAnalysis::UNITY_TYPE_AUTO) {
+            $this->formulaAnalysis = FormulaAnalysis::createAutomaticUnityFormula($percentageAnalysis);
+        }
+        else if ($formulaUnityType === FormulaAnalysis::UNITY_TYPE_RO_R2O) {
+            $this->formulaAnalysis = FormulaAnalysis::createROR2OUnityFormulaAnalysis($percentageAnalysis);
+        }
+        else if ($formulaUnityType === FormulaAnalysis::UNITY_TYPE_R2O3) {
+            $this->formulaAnalysis = FormulaAnalysis::createR2O3UnityFormulaAnalysis($percentageAnalysis);
+        }
+        else {
+            $this->formulaAnalysis = FormulaAnalysis::createNoUnityFormula($percentageAnalysis);
+        }
     }
 
     /**

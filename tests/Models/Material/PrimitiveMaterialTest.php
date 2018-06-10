@@ -59,6 +59,107 @@ class PrimitiveMaterialTest extends \PHPUnit\Framework\TestCase
         $this->assertNotEquals(0, $formula->getOxide(Analysis::Al2O3));
     }
 
+    public function testSetPercentageAnalysis_UnityTypeAuto()
+    {
+        // Kaolin
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::Al2O3, 40.21);
+        $percent->setOxide(Analysis::SiO2, 47.29);
+        $percent->setLOI(12.50);
+
+        $uniqueId = 22938;
+        $material = new PrimitiveMaterial($uniqueId);
+        $material->setPercentageAnalysis($percent, FormulaAnalysis::UNITY_TYPE_AUTO);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(1.0, $formulaAnalysis->getOxide(Analysis::Al2O3), '', 0.1);
+        $this->assertEquals(1.996, $formulaAnalysis->getOxide(Analysis::SiO2), '', 0.001);
+    }
+
+    public function testSetPercentageAnalysis_UnityTypeROR2O()
+    {
+        // Kaolin
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::Al2O3, 40.21);
+        $percent->setOxide(Analysis::SiO2, 47.29);
+        $percent->setLOI(12.50);
+
+        $uniqueId = 22938;
+        $material = new PrimitiveMaterial($uniqueId);
+        $material->setPercentageAnalysis($percent, FormulaAnalysis::UNITY_TYPE_RO_R2O);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(0, $formulaAnalysis->getOxide(Analysis::Al2O3), '', 0.1);
+
+        // Potash
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::K2O, 16.92);
+        $percent->setOxide(Analysis::Al2O3, 18.32);
+        $percent->setOxide(Analysis::SiO2, 64.76);
+        $percent->setLOI(0);
+        
+        $uniqueId = 22938;
+        $material = new PrimitiveMaterial($uniqueId);
+        $material->setPercentageAnalysis($percent, FormulaAnalysis::UNITY_TYPE_RO_R2O);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(1, $formulaAnalysis->getOxide(Analysis::K2O), '', 0.1);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(1, $formulaAnalysis->getOxide(Analysis::Al2O3), '', 0.1);
+    }
+
+    public function testSetPercentageAnalysis_UnityTypeR2O3()
+    {
+        // Kaolin
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::Al2O3, 40.21);
+        $percent->setOxide(Analysis::SiO2, 47.29);
+        $percent->setLOI(12.50);
+
+        $uniqueId = 22938;
+        $material = new PrimitiveMaterial($uniqueId);
+        $material->setPercentageAnalysis($percent, FormulaAnalysis::UNITY_TYPE_R2O3);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(1, $formulaAnalysis->getOxide(Analysis::Al2O3), '', 0.1);
+
+        // Potash
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::K2O, 16.92);
+        $percent->setOxide(Analysis::Al2O3, 18.32);
+        $percent->setOxide(Analysis::SiO2, 64.76);
+        $percent->setLOI(0);
+        
+        $uniqueId = 22938;
+        $material = new PrimitiveMaterial($uniqueId);
+        $material->setPercentageAnalysis($percent, FormulaAnalysis::UNITY_TYPE_R2O3);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(1, $formulaAnalysis->getOxide(Analysis::Al2O3), '', 0.1);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(1, $formulaAnalysis->getOxide(Analysis::K2O), '', 0.1);
+
+    }
+
+    public function testSetPercentageAnalysis_UnityTypeNone()
+    {
+        // Kaolin
+        $percent = new PercentageAnalysis();
+        $percent->setOxide(Analysis::Al2O3, 40.21);
+        $percent->setOxide(Analysis::SiO2, 47.29);
+        $percent->setLOI(12.50);
+
+        $uniqueId = 22938;
+        $material = new PrimitiveMaterial($uniqueId);
+        $material->setPercentageAnalysis($percent, FormulaAnalysis::UNITY_TYPE_NONE);
+
+        $formulaAnalysis = $material->getFormulaAnalysis();
+        $this->assertEquals(0.79, $formulaAnalysis->getOxide(Analysis::SiO2), '', 0.01);
+        $this->assertEquals(0.39, $formulaAnalysis->getOxide(Analysis::Al2O3), '', 0.01);
+    }
+
     public function testSetFormulaAnalysis()
     {
         // Potash Feldspar formula:
@@ -90,7 +191,6 @@ class PrimitiveMaterialTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(47.29, $percent->getOxide(Analysis::SiO2), '', 0.01);
         $this->assertEquals(40.20, $percent->getOxide(Analysis::Al2O3), '', 0.01);
     }
-
 }
 
 ?>

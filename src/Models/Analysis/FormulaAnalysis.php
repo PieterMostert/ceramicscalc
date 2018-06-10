@@ -9,6 +9,11 @@ namespace DerekPhilipAu\Ceramicscalc\Models\Analysis;
 
 class FormulaAnalysis extends Analysis
 {
+    const UNITY_TYPE_AUTO = 'auto';
+    const UNITY_TYPE_RO_R2O = 'ror2o';
+    const UNITY_TYPE_R2O3 = 'r2o3';
+    const UNITY_TYPE_NONE = 'none';
+
     public function getSiO2Al2O3Ratio()
     {
         if ($this->getOxide($this::Al2O3) == 0)
@@ -49,6 +54,22 @@ class FormulaAnalysis extends Analysis
         }
 
         return $formulaWeight;
+    }
+
+    public function getCalculatedLoiFromWeight($weight) {
+        $formulaWeight = $this->getFormulaWeight();
+        if ($weight <= $formulaWeight) {
+            return 0;
+        }
+        return ($weight - $formulaWeight) /  $weight * 100;
+    }
+
+    public function getCalculatedWeightFromLoi($loi) {
+        $formulaWeight = $this->getFormulaWeight();
+        if ($loi >= 100) {
+            return 0;
+        }
+        return $formulaWeight / (100 - $loi) * 100;
     }
 
     public static function createNoUnityFormula($percentageAnalysis)
