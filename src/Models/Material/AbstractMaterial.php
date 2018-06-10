@@ -108,7 +108,7 @@ abstract class AbstractMaterial {
     /**
      * @param PercentageAnalysis $percentageAnalysis
      */
-    function setPercentageAnalysis(PercentageAnalysis $percentageAnalysis, $formulaUnityType = 'none')
+    function setPercentageAnalysis(PercentageAnalysis $percentageAnalysis, $formulaUnityType = FormulaAnalysis::UNITY_TYPE_NONE)
     {
         $this->percentageAnalysis = $percentageAnalysis;
         if ($formulaUnityType === FormulaAnalysis::UNITY_TYPE_AUTO) {
