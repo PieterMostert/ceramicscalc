@@ -255,9 +255,10 @@ class Analysis
      */
     public function setOxide(string $name, float $value) {
 		// Verify that the oxide is supported
-		if (array_search($name, self::OXIDE_NAMES) === false) {
-			throw new Exception('Oxide '.$name.' is not supported.');
-		}
+		// 20180611 This is a nice precaution but is just slowing things down.  Remove:
+		//if (array_search($name, self::OXIDE_NAMES) === false) {
+		//	throw new Exception('Oxide '.$name.' is not supported.');
+		//}
 
 		// Insert oxide value into our list
 		$this->oxides[$name] = $value;
