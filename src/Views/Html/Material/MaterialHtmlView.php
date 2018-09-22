@@ -5,43 +5,43 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace DerekPhilipAu\Ceramicscalc\Views\Txt\Material;
+namespace DerekPhilipAu\Ceramicscalc\Views\Html\Material;
 
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\FormulaAnalysis;
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\PercentageAnalysis;
 use DerekPhilipAu\Ceramicscalc\Models\Material\AbstractMaterial;
 use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
 use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterialComponent;
-use DerekPhilipAu\Ceramicscalc\Views\Txt\Analysis\AnalysisTxtView;
-use DerekPhilipAu\Ceramicscalc\Views\Txt\Analysis\PercentageAnalysisTxtView;
+use DerekPhilipAu\Ceramicscalc\Views\Html\Analysis\AnalysisHtmlView;
+use DerekPhilipAu\Ceramicscalc\Views\Html\Analysis\PercentageAnalysisHtmlView;
 
-class MaterialTxtView
+class MaterialHtmlView
 {
 	public static function toString(AbstractMaterial $material, $decimals = 3, $includeEmpty = false)
 	{
         $str = '';
 
-        $str .= 'Name: ' . $material->getName() . PHP_EOL;
-        $str .= 'Description: ' . $material->getDescription() . PHP_EOL;
+        $str .= 'Name: ' . $material->getName() . "<br/>";
+        $str .= 'Description: ' . $material->getDescription() . "<br/>";
 
-        $str .= MaterialTxtView::toStringMaterialComponents($material, $decimals);
+        $str .= MaterialHtmlView::toStringMaterialComponents($material, $decimals);
 
-        $str .= "SIMPLIFIED VIEW: " . PHP_EOL;
+        $str .= "SIMPLIFIED VIEW: " . "<br/>";
         $simplifiedMaterial = $material->getSimplifiedMaterial();
-        $str .= MaterialTxtView::toStringMaterialComponents($simplifiedMaterial, $decimals);
+        $str .= MaterialHtmlView::toStringMaterialComponents($simplifiedMaterial, $decimals);
 
-        $str .= "PERCENTAGE ANALYSIS: " . PHP_EOL;
-        $str .= PercentageAnalysisTxtView::toString($material->getPercentageAnalysis(), $decimals, $includeEmpty);
+        $str .= "PERCENTAGE ANALYSIS: " . "<br/>";
+        $str .= PercentageAnalysisHtmlView::toString($material->getPercentageAnalysis(), $decimals, $includeEmpty);
 
-        $str .= "100% PERCENTAGE ANALYSIS: " . PHP_EOL;
+        $str .= "100% PERCENTAGE ANALYSIS: " . "<br/>";
         $analysis = PercentageAnalysis::create100PercentPercentageAnalysis($material->getPercentageAnalysis());
-        $str .= PercentageAnalysisTxtView::toString($analysis, $decimals, $includeEmpty);
+        $str .= PercentageAnalysisHtmlView::toString($analysis, $decimals, $includeEmpty);
 
         //$analysis = $material->getFormulaAnalysis();
         $analysis = FormulaAnalysis::createROR2OUnityFormulaAnalysis($material->getPercentageAnalysis());
-        $str .= "UMF FORMULA: " . PHP_EOL;
-        $str .= 'Formula Weight: ' . number_format($analysis->getFormulaWeight(), $decimals) . PHP_EOL;
-        $str .= AnalysisTxtView::toString($analysis, $decimals, $includeEmpty);
+        $str .= "UMF FORMULA: " . "<br/>";
+        $str .= 'Formula Weight: ' . number_format($analysis->getFormulaWeight(), $decimals) . "<br/>";
+        $str .= AnalysisHtmlView::toString($analysis, $decimals, $includeEmpty);
 
         return $str;
 	}
@@ -61,8 +61,8 @@ class MaterialTxtView
                     $str .= "----";
                 }
                 $str .= " " . number_format($materialComponent->getAmount(), $decimals) . "% ";
-                $str .= $subMaterial->getName() . PHP_EOL;
-                $str .= MaterialTxtView::toStringMaterialComponents($subMaterial, $decimals, $indent + 1);
+                $str .= $subMaterial->getName() . "<br/>";
+                $str .= MaterialHtmlView::toStringMaterialComponents($subMaterial, $decimals, $indent + 1);
             }
         }
 
@@ -79,7 +79,7 @@ class MaterialTxtView
         {
             $subMaterial = $materialComponent->getMaterial();
             $str .= number_format($materialComponent->getAmount(), $decimals) . "% ";
-            $str .= $subMaterial->getName() . PHP_EOL;
+            $str .= $subMaterial->getName() . "<br/>";
         }
 
         return $str;
@@ -88,11 +88,11 @@ class MaterialTxtView
 
     public static function print($material)
     {
-		echo MaterialTxtView::toString($material);
+		echo MaterialHtmlView::toString($material);
     }
 
 
 
-} // end class AnalysisTxtView
+} // end class AnalysisHtmlView
 
 ?>

@@ -394,13 +394,18 @@ class CompositeMaterial extends AbstractMaterial {
 
             foreach (Analysis::OXIDE_NAMES as $name)
             {
-                $subtotal = $totalPercentages->getOxide($name) +
-                    ($materialPercentages->getOxide($name) * $amount / $this->componentsTotalPercentage);
+                $subtotal = 0;
+                if ($this->componentsTotalPercentage) {
+                    $subtotal = $totalPercentages->getOxide($name) +
+                        ($materialPercentages->getOxide($name) * $amount / $this->componentsTotalPercentage);
+                }
                 $totalPercentages->setOxide($name, $subtotal);
             }
 
-            $newLoi = $totalPercentages->getLOI() + ($materialPercentages->getLOI() * $amount / $this->componentsTotalPercentage);
-
+            $newLoi = 0;
+            if ($this->componentsTotalPercentage) {
+                $newLoi = $totalPercentages->getLOI() + ($materialPercentages->getLOI() * $amount / $this->componentsTotalPercentage);
+            }
             $totalPercentages->setLOI($newLoi);
 
         }

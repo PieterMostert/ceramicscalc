@@ -5,11 +5,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace DerekPhilipAu\Ceramicscalc\Views\Txt\Analysis;
+namespace DerekPhilipAu\Ceramicscalc\Views\Html\Analysis;
 
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
 
-class AnalysisTxtView
+class AnalysisHtmlView
 {
 	public static function toString($analysis, $decimals = 3, $includeEmpty = false)
 	{
@@ -20,12 +20,12 @@ class AnalysisTxtView
             {
                 if ($includeEmpty)
                 {
-                    $str .= $name . ': ' . number_format($analysis->getOxide($name), $decimals) . "\n";
+                    $str .= $name . ': ' . number_format($analysis->getOxide($name), $decimals) . "<br/>";
                 }
             }
             else
             {
-                $str .= $name . ': ' . number_format($analysis->getOxide($name), $decimals) . "\n";
+                $str .= $name . ': ' . number_format($analysis->getOxide($name), $decimals) . "<br/>";
             }
 		}
         return $str;
@@ -33,11 +33,11 @@ class AnalysisTxtView
 
     public static function print($analysis)
     {
-		echo AnalysisTxtView::toString($analysis);
+		echo AnalysisHtmlView::toString($analysis);
     }
 
 
 
-} // end class AnalysisTxtView
+} // end class AnalysisHtmlView
 
 ?>

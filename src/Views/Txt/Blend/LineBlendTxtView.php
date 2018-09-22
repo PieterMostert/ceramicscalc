@@ -25,7 +25,7 @@ class LineBlendTxtView
         return $str;
 	}
 
-    public static function printTxt($analysis)
+    public static function print($analysis)
     {
 		echo LineBlendTxtView::toString($analysis);
     }

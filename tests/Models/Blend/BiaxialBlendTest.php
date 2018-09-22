@@ -7,37 +7,52 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Test\Models\Material;
 
-use DerekPhilipAu\Ceramicscalc\Models\Blend\LineBlend;
+use DerekPhilipAu\Ceramicscalc\Models\Blend\BiaxialBlend;
 use DerekPhilipAu\Ceramicscalc\Test\BaseCompositeMaterialTest;
-use DerekPhilipAu\Ceramicscalc\Views\Txt\Blend\LineBlendTxtView;
+use DerekPhilipAu\Ceramicscalc\Views\Html\Blend\BiaxialBlendHtmlView;
 
-class LineBlendTest extends BaseCompositeMaterialTest
+class BiaxialBlendTest extends BaseCompositeMaterialTest
 {
 
-    public function testCompositeMaterialLineBlend()
+    public function testCompositeMaterialBiaxialBlend()
     {
-        $leach4321 = $this->providerLeach4321();
-        $pinnell = $this->providerPinnellClear();
+        $numRows = 5;
+        $numColumns = 5;
 
-        $lineBlend = LineBlend::createLineBlend($leach4321, $pinnell, 10, 90, 10, 90, 10);
+        $tl = $this->providerLeach4321();
+        $tl->setName('Top Left');
 
-        $this->assertEquals(9, count($lineBlend));
+        $tr = $this->providerPinnellClear();
+        $tr->setName('Top Right');
 
-        $leach90Pinnell10 = $lineBlend[0]->getSimplifiedMaterial();
+        $bl = $this->providerLeach4321();
+        $bl->setName("Bottom Left");
 
+        $br = $this->providerLeach4321();
+        $br->setName("Bottom Right");
+
+        $biaxialBlend = BiaxialBlend::createBiaxialBlend($tl, $tr, $bl, $br, $numRows, $numColumns);
+
+        $this->assertEquals($numRows, count($biaxialBlend));
+        foreach ($biaxialBlend as $lineBlend) {
+            $this->assertEquals($numColumns, count($lineBlend));
+        }
+
+        //        $leach90Pinnell10 = $biaxialBlend[0][0]->getSimplifiedMaterial();
+/*
         $this->assertEquals(38.5, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
         $this->assertEquals(30.5, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
         $this->assertEquals(20, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
         $this->assertEquals(11, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
-
-        $leach40Pinnell60 = $lineBlend[5]->getSimplifiedMaterial();
-
+*/
+//        $leach40Pinnell60 = $biaxialBlend[2][2]->getSimplifiedMaterial();
+/*
         $this->assertEquals(31, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
         $this->assertEquals(33, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
         $this->assertEquals(20, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
         $this->assertEquals(16, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
-
-        LineBlendTxtView::print($lineBlend);
+*/
+        BiaxialBlendHtmlView::print($biaxialBlend);
     }
 
 }
