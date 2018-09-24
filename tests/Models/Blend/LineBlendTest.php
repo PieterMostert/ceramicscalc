@@ -10,6 +10,7 @@ namespace DerekPhilipAu\Ceramicscalc\Test\Models\Material;
 use DerekPhilipAu\Ceramicscalc\Models\Blend\LineBlend;
 use DerekPhilipAu\Ceramicscalc\Test\BaseCompositeMaterialTest;
 use DerekPhilipAu\Ceramicscalc\Views\Txt\Blend\LineBlendTxtView;
+use DerekPhilipAu\Ceramicscalc\Views\Txt\Material\MaterialTxtView;
 
 class LineBlendTest extends BaseCompositeMaterialTest
 {
@@ -17,6 +18,7 @@ class LineBlendTest extends BaseCompositeMaterialTest
     public function testCompositeMaterialLineBlend()
     {
         $leach4321 = $this->providerLeach4321();
+
         $pinnell = $this->providerPinnellClear();
 
         $lineBlend = LineBlend::createLineBlend($leach4321, $pinnell, 10, 90, 10, 90, 10);

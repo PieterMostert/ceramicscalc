@@ -413,6 +413,42 @@ class CompositeMaterial extends AbstractMaterial {
         $this->setPercentageAnalysis($totalPercentages);
     }
 
+    public static function createFromJson(array $jsonMaterial, bool $isCalculateFormulaAnalysis = false) : AbstractMaterial
+    {
+        $material = new CompositeMaterial($jsonMaterial['id']);
+
+        if (!empty($jsonMaterial['name'])) { $material->name = $jsonMaterial['name']; }
+        if (!empty($jsonMaterial['description'])) { $material->description = $jsonMaterial['description']; }
+
+        if (!empty($jsonMaterial['analysis']) && !empty($jsonMaterial['analysis']['umfAnalysis'])) {
+            $material->formulaAnalysis->setFromJson($jsonMaterial['analysis']['formulaAnalysis']);
+            $material->percentageAnalysis->setFromJson($jsonMaterial['analysis']['percentageAnalysis']);
+            $material->percentageAnalysis->setLOI($jsonMaterial['analysis']['percentageAnalysis']['loi']);
+        }
+
+        if (!empty($jsonMaterial['materialComponents'])) {
+            // TODO: Infinite loops are possible..
+            foreach ($jsonMaterial['materialComponents'] as $jsonComponent) {
+                if ($jsonComponent['isPrimitive']) {
+                    $material->addMaterial(
+                        PrimitiveMaterial::createFromJson($jsonComponent),
+                        $jsonComponent->percentageAmount,
+                        $jsonComponent->isAdditional
+                    );
+                }
+                else {
+                    $material->addMaterial(
+                        CompositeMaterial::createFromJson($jsonComponent),
+                        $jsonComponent->percentageAmount,
+                        $jsonComponent->isAdditional
+                    );
+                }
+            }
+        }
+
+        return $material;
+    }
+
 }
 
 ?>

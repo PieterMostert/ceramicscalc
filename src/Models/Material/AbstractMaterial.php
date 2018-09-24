@@ -60,6 +60,15 @@ abstract class AbstractMaterial {
 
     /**
      * @return mixed
+     *
+     * De-serializes a material from JSON.
+     *
+     * Don't require this in interface.  Allow use of static functions to return objects from JSON.
+     */
+    //public abstract function createFromJson(array $jsonMaterial, bool $isCalculateFormulaAnalysis = false) : AbstractMaterial;
+
+    /**
+     * @return mixed
      * TODO:  Think about how to implement this.
      */
     function getUniqueId()

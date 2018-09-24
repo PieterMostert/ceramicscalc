@@ -7,6 +7,9 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Models\Material;
 
+use DerekPhilipAu\Ceramicscalc\Models\Analysis\PercentageAnalysis;
+use DerekPhilipAu\Ceramicscalc\Views\Txt\Material\MaterialTxtView;
+
 /**
  * Class PrimitiveMaterial
  * @package DerekPhilipAu\Ceramicscalc\Models\Material
@@ -96,6 +99,22 @@ class PrimitiveMaterial extends AbstractMaterial {
 	{
 		throw new Exception('Cannot remove material from primitive material.');
 	}
+
+    public static function createFromJson(array $jsonMaterial, bool $isCalculateFormulaAnalysis = false) : AbstractMaterial
+    {
+        $material = new PrimitiveMaterial($jsonMaterial['id']);
+
+        if (!empty($jsonMaterial['name'])) { $material->name = $jsonMaterial['name']; }
+        if (!empty($jsonMaterial['description'])) { $material->description = $jsonMaterial['description']; }
+
+        if (!empty($jsonMaterial['analysis']) && !empty($jsonMaterial['analysis']['percentageAnalysis'])) {
+            $material->formulaAnalysis->setFromJson($jsonMaterial['analysis']['formulaAnalysis']);
+            $material->percentageAnalysis->setFromJson($jsonMaterial['analysis']['percentageAnalysis']);
+            $material->percentageAnalysis->setLOI($jsonMaterial['analysis']['percentageAnalysis']['loi']);
+        }
+
+        return $material;
+    }
 
 }
 

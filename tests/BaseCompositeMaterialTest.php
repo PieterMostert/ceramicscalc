@@ -7,6 +7,7 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Test;
 
+use DerekPhilipAu\Ceramicscalc\Helpers\PrimitiveMaterialLibrary;
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\PercentageAnalysis;
 use DerekPhilipAu\Ceramicscalc\Models\Material\PrimitiveMaterial;
@@ -14,20 +15,27 @@ use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
 
 abstract class BaseCompositeMaterialTest extends \PHPUnit\Framework\TestCase
 {
-    const MATERIAL_POTASH_ID = 1;
-    const MATERIAL_SILICA_ID = 2;
-    const MATERIAL_WHITING_ID = 3;
-    const MATERIAL_KAOLIN_ID = 4;
+    const MATERIAL_POTASH_ID = 15371;
+    const MATERIAL_SILICA_ID = 15400;
+    const MATERIAL_WHITING_ID = 15457;
+    const MATERIAL_KAOLIN_ID = 15288;
+
+    protected $primitiveMaterials = null;
+
+    function __construct() {
+        parent::__construct();
+        $this->primitiveMaterials = new PrimitiveMaterialLibrary();
+    }
 
     /*
      *  The classic Leach 4321 recipe
      */
     public function providerLeach4321()
     {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
+        $potash = $this->primitiveMaterials->getPrimitiveMaterialByName('Potash Feldspar');
+        $silica = $this->primitiveMaterials->getPrimitiveMaterialByName('Silica');
+        $whiting = $this->primitiveMaterials->getPrimitiveMaterialByName('Whiting');
+        $kaolin = $this->primitiveMaterials->getPrimitiveMaterialByName('Kaolin');
 
         $leach4321 = new CompositeMaterial();
         $leach4321->setName("Leach 4321");
@@ -41,10 +49,10 @@ abstract class BaseCompositeMaterialTest extends \PHPUnit\Framework\TestCase
 
     public function providerPinnellClear()
     {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
+        $potash = $this->primitiveMaterials->getPrimitiveMaterialByName('Potash Feldspar');
+        $silica = $this->primitiveMaterials->getPrimitiveMaterialByName('Silica');
+        $whiting = $this->primitiveMaterials->getPrimitiveMaterialByName('Whiting');
+        $kaolin = $this->primitiveMaterials->getPrimitiveMaterialByName('Kaolin');
 
         $pinnell = new CompositeMaterial();
         $pinnell->setName("Pinnell Clear");
@@ -71,10 +79,10 @@ abstract class BaseCompositeMaterialTest extends \PHPUnit\Framework\TestCase
 
     public function providerPinnellClearDoubledAmounts()
     {
-        $potash = $this->providerPotash();
-        $silica = $this->providerSilica();
-        $whiting = $this->providerWhiting();
-        $kaolin = $this->providerKaolin();
+        $potash = $this->primitiveMaterials->getPrimitiveMaterialByName('Potash Feldspar');
+        $silica = $this->primitiveMaterials->getPrimitiveMaterialByName('Silica');
+        $whiting = $this->primitiveMaterials->getPrimitiveMaterialByName('Whiting');
+        $kaolin = $this->primitiveMaterials->getPrimitiveMaterialByName('Kaolin');
 
         $pinnell = new CompositeMaterial();
         $pinnell->setName("Pinnell Clear Doubled Amounts");

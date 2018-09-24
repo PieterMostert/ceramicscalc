@@ -330,6 +330,16 @@ class Analysis
         return $this->oxides;
     }
 
+    public function setFromJson($jsonAnalysis)
+    {
+        $this->initOxides();
+
+        foreach (self::OXIDE_NAMES as $index => $name) {
+            if (!empty($jsonAnalysis[$name])) {
+                $this->setOxide($name, (float) $jsonAnalysis[$name]);
+            }
+        }
+    }
 } 
 
 ?>

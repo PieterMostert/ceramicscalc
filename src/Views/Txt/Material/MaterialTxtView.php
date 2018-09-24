@@ -61,7 +61,7 @@ class MaterialTxtView
                     $str .= "----";
                 }
                 $str .= " " . number_format($materialComponent->getAmount(), $decimals) . "% ";
-                $str .= $subMaterial->getName() . PHP_EOL;
+                $str .= $subMaterial->getName() .' (' . $subMaterial->getUniqueId() . ')' . PHP_EOL;
                 $str .= MaterialTxtView::toStringMaterialComponents($subMaterial, $decimals, $indent + 1);
             }
         }
