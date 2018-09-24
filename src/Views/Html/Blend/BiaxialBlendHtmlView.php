@@ -17,7 +17,7 @@ class BiaxialBlendHtmlView
         $numberOfRows = count($biaxialBlend);
         $numberOfColumns = count($biaxialBlend[0]);
 
-        $str .= '<table><tbody>';
+        $str .= "\n\n<table border='1'>\n<tbody>\n";
         for ($currentRow = 0; $currentRow < $numberOfRows; $currentRow++) {
             $str .= '<tr>';
             for ($currentColumn = 0; $currentColumn < $numberOfColumns; $currentColumn++) {
@@ -28,7 +28,7 @@ class BiaxialBlendHtmlView
             }
             $str .= '</tr>';
         }
-        $str .= '</tbody></table>';
+        $str .= "\n</tbody>\n</table>\n\n";
 
         return $str;
 	}

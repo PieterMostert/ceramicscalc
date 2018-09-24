@@ -28,6 +28,8 @@ class AnalysisHtmlView
                 $str .= $name . ': ' . number_format($analysis->getOxide($name), $decimals) . "<br/>";
             }
 		}
+
+		$str .= 'SiO2:Al2O3: ' . number_format($analysis->getSiAlRatio(), $decimals) . "<br/>";
         return $str;
 	}
 

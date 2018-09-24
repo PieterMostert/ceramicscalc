@@ -293,6 +293,18 @@ class Analysis
 	}
 
     /**
+     * @return mixed
+     *
+     * The Si:Al ratio.
+     */
+    public function getSiAlRatio() {
+    	if (empty($this->oxides[self::Al2O3])) {
+    		return 0;
+		}
+        return $this->oxides[self::SiO2] / $this->oxides[self::Al2O3];
+    }
+
+    /**
      * @param array $oxides
 	 *
 	 * Automatically set oxides in this analysis using an array of name/value pairs.
