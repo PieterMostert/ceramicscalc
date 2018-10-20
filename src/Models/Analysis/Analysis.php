@@ -24,49 +24,81 @@ class Analysis
     /**
      * The following constants define ALL oxides supported by this software.
      */
+    const SiO2 = 'SiO2';   // Silicon dioxide
 
-	const SiO2 = 'SiO2';
-
-	const Al2O3 = 'Al2O3';
-	const B2O3 = 'B2O3';
+	const Al2O3 = 'Al2O3'; // Aluminum Oxide
+	const B2O3 = 'B2O3';   // Boric Oxide
 
 	// Alkalis
-	const Li2O = 'Li2O';
-	const Na2O = 'Na2O';
-	const K2O = 'K2O';
+	const Li2O = 'Li2O';   // Lithium Oxide
+	const Na2O = 'Na2O';   // Sodium Oxide
+	const K2O = 'K2O';     // Potassium Oxide
 
 	// Alkaline Earths
-	const BeO = 'BeO';
-	const MgO = 'MgO';
-	const CaO = 'CaO';
-	const SrO = 'SrO';
-	const BaO = 'BaO';
+	const BeO = 'BeO';     // Beryllium Oxide
+	const MgO = 'MgO';     // Magnesium Oxide
+	const CaO = 'CaO';     // Calcium Oxide
+	const SrO = 'SrO';     // Strontium Oxide, Strontia
+	const BaO = 'BaO';     // Barium Oxide
 
-	const P2O5 = 'P2O5';
+	const P2O5 = 'P2O5';   // Phosphorus Pentoxide
 
 	// Opacifiers
-	const TiO2 = 'TiO2';
-	const ZrO = 'ZrO';
-	const ZrO2 = 'ZrO2';
+	const TiO2 = 'TiO2';   // Titania, Titanium Dioxide
+	const ZrO = 'ZrO';     // Zirconium Oxide, Zirconia
+	const ZrO2 = 'ZrO2';   // Zirconium Dioxide
 
 	// Colors
-	const V2O5 = 'V2O5';
-	const Cr2O3 = 'Cr2O3';
-	const MnO = 'MnO';
-	const MnO2 = 'MnO2';
-	const FeO = 'FeO';
-	const Fe2O3 = 'Fe2O3';
-	const CoO = 'CoO';
-	const NiO = 'NiO';
-	const CuO = 'CuO';
-	const Cu2O = 'Cu2O';
-	const CdO = 'CdO';
+	const V2O5 = 'V2O5';   // Vanadium Pentoxide
+	const Cr2O3 = 'Cr2O3'; // Chrome Oxide
+	const MnO = 'MnO';     // Manganese Oxide
+	const MnO2 = 'MnO2';   // Manganese Dioxide
+	const FeO = 'FeO';     // Ferrous Oxide
+	const Fe2O3 = 'Fe2O3'; // Iron Oxide, Ferric Oxide
+	const CoO = 'CoO';     // Cobalt Oxide
+	const NiO = 'NiO';     // Nickel Oxide
+	const CuO = 'CuO';     // Cupric Oxide
+	const Cu2O = 'Cu2O';   // Cuprous Oxide
+	const CdO = 'CdO';     // Cadmium Oxide
 
-	const ZnO = 'ZnO';
+	const ZnO = 'ZnO';     // Zinc Oxide
 
-	const F = 'F';
-	const PbO = 'PbO';
-	const SnO2 = 'SnO2';
+	const F = 'F';         // Fluorine
+	const PbO = 'PbO';     // Lead Oxide
+	const SnO2 = 'SnO2';   // Tin Oxide, Stannic Oxide
+
+    // Extended (10/2018):
+    const HfO2  = 'HfO2';   // Hafnium dioxide
+    const Nb2O5  = 'Nb2O5'; // Niobium(V) oxide
+    const Ta2O5  = 'Ta2O5'; // Tantalum(V) oxide
+    const MoO3  = 'MoO3';   // Molybdenum(VI) oxide
+    const WO3  = 'WO3';     // Tungsten(VI) oxide
+    const OsO2  = 'OsO2';   // Osmium(IV) oxide
+    const IrO2  = 'IrO2';   // Iridium(IV) oxide
+    const PtO2  = 'PtO2';   // Platinum(IV) oxide
+    const Ag2O  = 'Ag2O';   // Silver Oxide
+    const Au2O3  = 'Au2O3'; // Gold Oxide
+    const GeO2  = 'GeO2';   // Germanium(IV) oxide
+    const As2O3  = 'As2O3'; // Arsenic Oxide
+    const Sb2O3  = 'Sb2O3'; // Antimony(III) oxide
+    const Bi2O3  = 'Bi2O3'; // Bismuth Oxide
+    const SeO2  = 'SeO2';   // Selenium dioxide
+    // Lanthanides:
+    const La2O3  = 'La2O3'; // Lanthanum oxide
+    const CeO2  = 'CeO2';   // Cerium Oxide
+    const PrO2  = 'PrO2';   // Praseodymium Oxide
+    const Pr2O3  = 'Pr2O3'; // Praseodymium oxide
+    const Nd2O3  = 'Nd2O3'; // Neodymium oxide
+    const U3O8  = 'U3O8';   // Uranium(V,VI) oxide
+    const Sm2O3  = 'Sm2O3'; // Samarium(III) oxide
+    const Eu2O3  = 'Eu2O3'; // Europium(III) oxide
+    const Tb2O3  = 'Tb2O3'; // Terbium oxide
+    const Dy2O3  = 'Dy2O3'; // Dysprosium oxide
+    const Ho2O3  = 'Ho2O3'; // Holmia; Holmium(III) oxide
+    const Er2O3  = 'Er2O3'; // Erbium oxide
+    const Tm2O3  = 'Tm2O3'; // Thulium oxide
+    const Yb2O3  = 'Yb2O3'; // Ytterbium(III) oxide
+    const Lu2O3  = 'Lu2O3'; // Lutetium oxide
 
     /**
      * Helper array to store names of all oxides.
@@ -112,6 +144,38 @@ class Analysis
 		self::F,
 		self::PbO,
 		self::SnO2,
+
+        // Extended (10/2018):
+        self::HfO2,
+        self::Nb2O5,
+        self::Ta2O5,
+        self::MoO3,
+        self::WO3,
+        self::OsO2,
+        self::IrO2,
+        self::PtO2,
+        self::Ag2O,
+        self::Au2O3,
+        self::GeO2,
+        self::As2O3,
+        self::Sb2O3,
+        self::Bi2O3,
+        self::SeO2,
+        self::La2O3,
+        self::CeO2,
+        self::PrO2,
+        self::Pr2O3,
+        self::Nd2O3,
+        self::U3O8,
+        self::Sm2O3,
+        self::Eu2O3,
+        self::Tb2O3,
+        self::Dy2O3,
+        self::Ho2O3,
+        self::Er2O3,
+        self::Tm2O3,
+        self::Yb2O3,
+        self::Lu2O3,
     ];
 
     /**
@@ -161,6 +225,38 @@ class Analysis
         self::F     => 18.998,
         self::PbO   => 223.2,
         self::SnO2  => 150.709,
+
+        // Extended (10/2018):
+        self::HfO2  => 210.49,
+        self::Nb2O5  => 265.810,
+        self::Ta2O5  => 441.893,
+        self::MoO3  => 143.94,
+        self::WO3  => 231.84,
+        self::OsO2  => 222.23,
+        self::IrO2  => 224.216,
+        self::PtO2  => 227.08,
+        self::Ag2O  => 231.735,
+        self::Au2O3  => 441.93,
+        self::GeO2  => 104.61,
+        self::As2O3  => 197.841,
+        self::Sb2O3  => 291.518,
+        self::Bi2O3  => 465.959,
+        self::SeO2  => 110.96,
+        self::La2O3  => 325.809,
+        self::CeO2  => 172.115,
+        self::PrO2  => 172.906,
+        self::Pr2O3  => 329.813,
+        self::Nd2O3  => 336.48,
+        self::U3O8  => 842.082,
+        self::Sm2O3  => 348.72,
+        self::Eu2O3  => 351.926,
+        self::Tb2O3  => 365.849,
+        self::Dy2O3  => 373.00,
+        self::Ho2O3  => 377.858,
+        self::Er2O3  => 382.52,
+        self::Tm2O3  => 385.866,
+        self::Yb2O3  => 394.08,
+        self::Lu2O3  => 397.932,
     ];
 
     /**
@@ -206,6 +302,38 @@ class Analysis
 		self::NiO,
 		self::V2O5,
 		self::ZrO,
+
+        // Extended (10/2018):
+        self::HfO2,
+        self::Nb2O5,
+        self::Ta2O5,
+        self::MoO3,
+        self::WO3,
+        self::OsO2,
+        self::IrO2,
+        self::PtO2,
+        self::Ag2O,
+        self::Au2O3,
+        self::GeO2,
+        self::As2O3,
+        self::Sb2O3,
+        self::Bi2O3,
+        self::SeO2,
+        self::La2O3,
+        self::CeO2,
+        self::PrO2,
+        self::Pr2O3,
+        self::Nd2O3,
+        self::U3O8,
+        self::Sm2O3,
+        self::Eu2O3,
+        self::Tb2O3,
+        self::Dy2O3,
+        self::Ho2O3,
+        self::Er2O3,
+        self::Tm2O3,
+        self::Yb2O3,
+        self::Lu2O3,
     ];
 
     /**

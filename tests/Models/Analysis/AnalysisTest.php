@@ -22,22 +22,25 @@ class AnalysisTest extends \PHPUnit\Framework\TestCase
 
     public function testGetOxideNames() {
         $oxide_names = Analysis::getOxideNames();
-        $this->assertEquals(30, count($oxide_names));
+        $this->assertEquals(60, count($oxide_names));
         $this->assertEquals(Analysis::SiO2, $oxide_names[0]);
     }
 
     public function testGetMolarMasses() {
         $masses = Analysis::getMolarMasses();
-        $this->assertEquals(30, count($masses));
+        $this->assertEquals(60, count($masses));
         $this->assertEquals(60.085, $masses[Analysis::SiO2]);
+        $this->assertEquals(325.809, $masses[Analysis::La2O3]);
     }
 
     public function testSetOxide() {
         $analysis = new Analysis();
         $analysis->setOxide(Analysis::SiO2, 50);
         $analysis->setOxide(Analysis::ZrO2, 22.2222);
+        $analysis->setOxide(Analysis::HfO2, 1.11);
         $this->assertEquals(50, $analysis->getOxide(Analysis::SiO2));
         $this->assertEquals(22.2222, $analysis->getOxide(Analysis::ZrO2));
+        $this->assertEquals(1.11, $analysis->getOxide(Analysis::HfO2));
         $this->assertEquals(0, $analysis->getOxide(Analysis::Al2O3));
     }
 
