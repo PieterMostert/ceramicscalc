@@ -38,12 +38,12 @@ class TriaxialBlend {
 		if (empty($topMaterial)) { throw new Exception('First Glaze empty.'); }
         if (empty($topRightMaterial)) { throw new Exception('Second Glaze empty.'); }
         if (empty($bottomLeftMaterial)) { throw new Exception('Third Glaze empty.'); }
-        if ($dimension < 1) { throw new Exception('Dimension must be greater than zero.'); }
+        if ($dimension < 2) { throw new Exception('Dimension must be greater than one.'); }
         $blends = array();
         for ($currentRow = 0; $currentRow < $dimension; $currentRow++) {
             $bottomLeftMaterialPercentage =
                 $currentRow / ($dimension - 1) * 100;
-            for ($currentColumn = 0; $currentColumn < $dimension - currentRow; $currentColumn++) {
+            for ($currentColumn = 0; $currentColumn < $dimension - $currentRow; $currentColumn++) {
                 $topMaterialPercentage =
 					          ($dimension - 1 - $currentRow - $currentColumn) / ($dimension - 1) * 100;
                 $bottomRightMaterialPercentage =
