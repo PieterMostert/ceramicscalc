@@ -13,24 +13,19 @@ use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
 /**
  * Class BiaxialBlend
  * @package DerekPhilipAu\Ceramicscalc\Models\Blend
- *
- * This is just a basic implementation of a class to help make line blends.
- *
- * In the future, triaxial and biaxial blends should be added.
  */
 class BiaxialBlend {
 
     /**
-     * @param AbstractMaterial $firstMaterial
-     * @param AbstractMaterial $secondMaterial
-     * @param $firstMinimumPercent
-     * @param $firstMaximumPercent
-     * @param $secondMinimumPercent
-     * @param $secondMaximumPercent
-     * @param $stepPercentage
+     * @param AbstractMaterial $topLeftMaterial,
+	 * @param AbstractMaterial $topRightMaterial,
+     * @param AbstractMaterial $bottomLeftMaterial,
+     * @param AbstractMaterial $bottomRightMaterial,
+     * @param $numberOfRows,
+     * @param $numberOfColumns,
      * @return array
 	 *
-	 * Return an array containing each blended CompositeMaterial in the line blend.
+	 * Return an array containing each blended CompositeMaterial in the biaxial blend.
      */
 	public static function createBiaxialBlend(
 		AbstractMaterial $topLeftMaterial,
@@ -44,7 +39,7 @@ class BiaxialBlend {
         if (empty($topRightMaterial)) { throw new Exception('First Glaze empty.'); }
         if (empty($bottomLeftMaterial)) { throw new Exception('First Glaze empty.'); }
         if (empty($bottomRightMaterial)) { throw new Exception('First Glaze empty.'); }
-        if (!$numberOfRows || !$numberOfColumns) { throw new Exception('Rows and columns must be greater than zero.'); }
+        if (($numberOfRows < 2) || ($numberOfColumns < 2)) { throw new Exception('Rows and columns must be greater than one.'); }
 
         $blends = array();
 
