@@ -41,6 +41,30 @@ Composer version 1.7.2 2018-08-16 16:57:12
 ....
 ```
 
+### Get the ceramicscalc code
+
+Clone or download this ceramicscalc repository from Github.
+
+### Install ceramicscalc dependencies
+
+In the repository root directory, run composer install:
+``` bash
+$ composer install
+```
+You should see output like the following:
+
+``` bash
+$ composer install
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 29 installs, 0 updates, 0 removals
+  - Installing sebastian/version (2.0.1): Loading from cache
+  - Installing sebastian/resource-operations (1.0.0): Loading from cache
+  - Installing sebastian/recursion-context (3.0.0): Loading from cache
+  - Installing sebastian/object-reflector (1.1.1): Loading from 
+  ......
+```
+
 Now that composer is installed, try running the ceramicscalc tests:
 
 ``` bash
