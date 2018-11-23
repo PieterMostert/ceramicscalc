@@ -5,14 +5,17 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+//incomplete
+
 namespace Ceramicscalc\Test\Models\Material;
 
-use Ceramicscalc\Models\Blend\BiaxialBlend;
+use Ceramicscalc\Models\Blend\TriaxialBlend;
 use Ceramicscalc\Models\Material\CompositeMaterial;
 use Ceramicscalc\Test\BaseCompositeMaterialTest;
-use Ceramicscalc\Views\Html\Blend\BiaxialBlendHtmlView;
+use Ceramicscalc\Views\Html\Blend\TriaxialBlendHtmlView;
 
-class BiaxialBlendTest extends BaseCompositeMaterialTest
+class TriaxialBlendTest extends BaseCompositeMaterialTest
 {
 
     protected $mahavir = null;
@@ -43,7 +46,7 @@ class BiaxialBlendTest extends BaseCompositeMaterialTest
 
     }
 
-    public function providerBiaxBottomRight()
+    public function providerTriaxBottomRight()
     {
         $corner = new CompositeMaterial();
         $corner->setName("Bottom Right");
@@ -58,7 +61,7 @@ class BiaxialBlendTest extends BaseCompositeMaterialTest
         return $corner;
     }
 
-    public function providerBiaxBottomLeft()
+    public function providerTriaxBottomLeft()
     {
         $corner = new CompositeMaterial();
         $corner->setName("Bottom Left");
@@ -73,7 +76,7 @@ class BiaxialBlendTest extends BaseCompositeMaterialTest
         return $corner;
     }
 
-    public function providerBiaxTopRight()
+    public function providerTriaxTopRight()
     {
         $corner = new CompositeMaterial();
         $corner->setName("Top Right");
@@ -88,7 +91,7 @@ class BiaxialBlendTest extends BaseCompositeMaterialTest
         return $corner;
     }
 
-    public function providerBiaxTopLeft()
+    public function providerTriaxTopLeft()
     {
         $corner = new CompositeMaterial();
         $corner->setName("Top Left");
@@ -103,19 +106,17 @@ class BiaxialBlendTest extends BaseCompositeMaterialTest
         return $corner;
     }
 
-    public function testCompositeMaterialBiaxialBlend()
+    public function testCompositeMaterialTriaxialBlend()
     {
-        $numRows = 4;
-        $numColumns = 4;
+        $dimension = 4;
 
-        $br = $this->providerBiaxBottomRight();
-        $bl = $this->providerBiaxBottomLeft();
-        $tr = $this->providerBiaxTopRight();
-        $tl = $this->providerBiaxTopLeft();
+        $t = $this->providerTriaxTop();
+        $bl = $this->providerTriaxBottomLeft();
+        $br = $this->providerTriaxBottomRight();
 
-        $biaxialBlend = BiaxialBlend::createBiaxialBlend($tl, $tr, $bl, $br, $numRows, $numColumns);
+        $triaxialBlend = TriaxialBlend::createTriaxialBlend($t, $bl, $br, $dimension);
 
-        $this->assertEquals($numRows, count($biaxialBlend));
+        $this->assertEquals($dimension, count($triaxialBlend));
         foreach ($biaxialBlend as $lineBlend) {
             $this->assertEquals($numColumns, count($lineBlend));
         }
