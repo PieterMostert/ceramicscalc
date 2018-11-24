@@ -134,7 +134,7 @@ class BiaxialBlendTest extends BaseCompositeMaterialTest
         $this->assertEquals(20, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
         $this->assertEquals(16, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
 */
-        BiaxialBlendHtmlView::print($biaxialBlend);
+//        BiaxialBlendHtmlView::print($biaxialBlend);
     }
 
 }
