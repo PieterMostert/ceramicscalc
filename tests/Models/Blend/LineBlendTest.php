@@ -39,7 +39,7 @@ class LineBlendTest extends BaseCompositeMaterialTest
         $this->assertEquals(20, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
         $this->assertEquals(16, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
 
-        LineBlendTxtView::print($lineBlend);
+        //LineBlendTxtView::print($lineBlend);
     }
 
 }
