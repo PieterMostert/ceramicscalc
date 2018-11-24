@@ -36,8 +36,8 @@ class TriaxialBlend {
 		$dimension) : array
 	{
 		if (empty($topMaterial)) { throw new Exception('First Glaze empty.'); }
-        if (empty($topRightMaterial)) { throw new Exception('Second Glaze empty.'); }
-        if (empty($bottomLeftMaterial)) { throw new Exception('Third Glaze empty.'); }
+        if (empty($bottomLeftMaterial)) { throw new Exception('Second Glaze empty.'); }
+        if (empty($bottomRightMaterial)) { throw new Exception('Third Glaze empty.'); }
         if ($dimension < 2) { throw new Exception('Dimension must be greater than one.'); }
         $blends = array();
         for ($currentRow = 0; $currentRow < $dimension; $currentRow++) {

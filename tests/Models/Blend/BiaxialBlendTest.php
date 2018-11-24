@@ -5,12 +5,12 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Ceramicscalc\Test\Models\Material;
+namespace DerekPhilipAu\Ceramicscalc\Test\Models\Material;
 
-use Ceramicscalc\Models\Blend\BiaxialBlend;
-use Ceramicscalc\Models\Material\CompositeMaterial;
-use Ceramicscalc\Test\BaseCompositeMaterialTest;
-use Ceramicscalc\Views\Html\Blend\BiaxialBlendHtmlView;
+use DerekPhilipAu\Ceramicscalc\Models\Blend\BiaxialBlend;
+use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
+use DerekPhilipAu\Ceramicscalc\Test\BaseCompositeMaterialTest;
+use DerekPhilipAu\Ceramicscalc\Views\Html\Blend\BiaxialBlendHtmlView;
 
 class BiaxialBlendTest extends BaseCompositeMaterialTest
 {

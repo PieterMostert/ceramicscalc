@@ -8,12 +8,13 @@
 
 //incomplete
 
-namespace Ceramicscalc\Test\Models\Material;
+namespace DerekPhilipAu\Ceramicscalc\Test\Models\Material;
 
-use Ceramicscalc\Models\Blend\TriaxialBlend;
-use Ceramicscalc\Models\Material\CompositeMaterial;
-use Ceramicscalc\Test\BaseCompositeMaterialTest;
-use Ceramicscalc\Views\Html\Blend\TriaxialBlendHtmlView;
+use DerekPhilipAu\Ceramicscalc\Models\Blend\LineBlend;
+use DerekPhilipAu\Ceramicscalc\Models\Blend\TriaxialBlend;
+use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
+use DerekPhilipAu\Ceramicscalc\Test\BaseCompositeMaterialTest;
+use DerekPhilipAu\Ceramicscalc\Views\Html\Blend\TriaxialBlendHtmlView;
 
 class TriaxialBlendTest extends BaseCompositeMaterialTest
 {
@@ -76,7 +77,7 @@ class TriaxialBlendTest extends BaseCompositeMaterialTest
         return $corner;
     }
 
-    public function providerTriaxTopRight()
+    public function providerTriaxTop()
     {
         $corner = new CompositeMaterial();
         $corner->setName("Top Right");
@@ -91,34 +92,23 @@ class TriaxialBlendTest extends BaseCompositeMaterialTest
         return $corner;
     }
 
-    public function providerTriaxTopLeft()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Top Left");
-        $corner->addMaterial($this->mahavir, 28.8);
-        $corner->addMaterial($this->epk, 28.4);
-        $corner->addMaterial($this->silica, 19.6);
-        $corner->addMaterial($this->wollastonite, 17.2);
-        $corner->addMaterial($this->talc, 6);
-        $corner->addMaterial($this->rio, 10);
-        $corner->addMaterial($this->tio, 0.6);
-        $corner->addMaterial($this->mno, 0.2);
-        return $corner;
-    }
-
     public function testCompositeMaterialTriaxialBlend()
     {
-        $dimension = 4;
+        $dimension = 5;
 
         $t = $this->providerTriaxTop();
         $bl = $this->providerTriaxBottomLeft();
         $br = $this->providerTriaxBottomRight();
 
+        $blend20 = LineBlend::createLineBlend($t, $bl, 0, 100, 0, 100, 100/$dimension)[2];
+        $blend22 = LineBlend::createLineBlend($br, $bl,  0, 100, 0, 100, 100/$dimension)[2];
+        $blend21 = LineBlend::createLineBlend($blend20, $blend22,  0, 100, 0, 100, 100/($dimension-2))[1];
+
         $triaxialBlend = TriaxialBlend::createTriaxialBlend($t, $bl, $br, $dimension);
 
         $this->assertEquals($dimension, count($triaxialBlend));
-        foreach ($biaxialBlend as $lineBlend) {
-            $this->assertEquals($numColumns, count($lineBlend));
+        $this->assertEquals($dimension, count($triaxialBlend[0]));
+        //$this->assertEquals($triaxialBlend[2][1], $blend21);
         }
 
         //        $leach90Pinnell10 = $biaxialBlend[0][0]->getSimplifiedMaterial();
@@ -135,8 +125,8 @@ class TriaxialBlendTest extends BaseCompositeMaterialTest
         $this->assertEquals(20, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
         $this->assertEquals(16, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
 */
-        BiaxialBlendHtmlView::print($biaxialBlend);
-    }
+        //BiaxialBlendHtmlView::print($biaxialBlend);
+    //}
 
 }
 
