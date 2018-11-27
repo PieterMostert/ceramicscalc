@@ -6,8 +6,6 @@
  * file that was distributed with this source code.
  */
 
-//incomplete
-
 namespace DerekPhilipAu\Ceramicscalc\Test\Models\Material;
 
 use DerekPhilipAu\Ceramicscalc\Models\Analysis\Analysis;
@@ -20,236 +18,96 @@ use DerekPhilipAu\Ceramicscalc\Views\Html\Blend\TriaxialBlendHtmlView;
 class TriaxialBlendTest extends BaseCompositeMaterialTest
 {
 
-    protected $mahavir = null;
+    protected $potashFeldspar = null;
     protected $silica = null;
-    protected $epk = null;
-    protected $talc = null;
-    protected $wollastonite = null;
+    protected $kaolin = null;
     protected $whiting = null;
-    protected $boneAsh = null;
-    protected $rio = null;
 
     function __construct() {
         parent::__construct();
 
-        $this->mahavir = $this->primitiveMaterials->getPrimitiveMaterialByName('Mahavir Potash Feldspar');
+        $this->potashFeldspar = $this->primitiveMaterials->getPrimitiveMaterialByName('Potash Feldspar');
         $this->silica = $this->primitiveMaterials->getPrimitiveMaterialByName('Silica');
-        $this->epk = $this->primitiveMaterials->getPrimitiveMaterialByName('EPK');
-        $this->nzk = $this->primitiveMaterials->getPrimitiveMaterialByName('New Zealand Halloysite');
-        $this->talc = $this->primitiveMaterials->getPrimitiveMaterialByName('Talc');
-        $this->wollastonite = $this->primitiveMaterials->getPrimitiveMaterialByName('Wollastonite');
+        $this->kaolin = $this->primitiveMaterials->getPrimitiveMaterialByName('Kaolin');
         $this->whiting = $this->primitiveMaterials->getPrimitiveMaterialByName('Whiting');
-        $this->boneAsh = $this->primitiveMaterials->getPrimitiveMaterialByName('Bone Ash');
-        $this->rio = $this->primitiveMaterials->getPrimitiveMaterialByName('Red iron oxide');
-        $this->yio = $this->primitiveMaterials->getPrimitiveMaterialByName('Yellow iron oxide');
-        $this->tio = $this->primitiveMaterials->getPrimitiveMaterialByName('Titanium Dioxide');
-        $this->mno = $this->primitiveMaterials->getPrimitiveMaterialByName('Manganese Dioxide');
+    }
 
-
+    public function providerTriaxTop()
+    {
+        $corner = new CompositeMaterial();
+        $corner->setName("Top");
+        $corner->addMaterial($this->potashFeldspar, 40);
+        $corner->addMaterial($this->silica, 30);
+        $corner->addMaterial($this->whiting, 20);
+        $corner->addMaterial($this->kaolin, 10);
+        return $corner;
+    }
+ 
+    public function providerTriaxBottomLeft()
+    {
+        $corner = new CompositeMaterial();
+        $corner->setName("Bottom Left");
+        $corner->addMaterial($this->potashFeldspar, 45);
+        $corner->addMaterial($this->silica, 35);
+        $corner->addMaterial($this->whiting, 15);
+        $corner->addMaterial($this->kaolin, 5);
+        return $corner;
     }
 
     public function providerTriaxBottomRight()
     {
         $corner = new CompositeMaterial();
         $corner->setName("Bottom Right");
+        $corner->addMaterial($this->potashFeldspar, 50);
         $corner->addMaterial($this->silica, 25);
-        $corner->addMaterial($this->wollastonite, 25);
-        $corner->addMaterial($this->epk, 25);
-        $corner->addMaterial($this->talc, 25);
-        /*
-        $corner->addMaterial($this->mahavir, 33.8);
-        $corner->addMaterial($this->silica, 21);
-        $corner->addMaterial($this->wollastonite, 20.3);
-        $corner->addMaterial($this->epk, 17.7);
-        $corner->addMaterial($this->talc, 7.2);
-        $corner->addMaterial($this->rio, 11.6);
-        $corner->addMaterial($this->tio, 0.9);
-        $corner->addMaterial($this->mno, 0.3);
-        */
+        $corner->addMaterial($this->whiting, 25);
         return $corner;
     }
 
-    public function providerTriaxBottomLeft()
+    public function testTriaxialBlend()
     {
-        $corner = new CompositeMaterial();
-        $corner->setName("Bottom Left");
-        $corner->addMaterial($this->mahavir, 35.2);
-        $corner->addMaterial($this->epk, 24.1);
-        $corner->addMaterial($this->wollastonite, 21);
-        $corner->addMaterial($this->silica, 12.1);
-        $corner->addMaterial($this->talc, 7.6);
-        $corner->addMaterial($this->rio, 12);
-        $corner->addMaterial($this->tio, 1);
-        $corner->addMaterial($this->mno, 0.3);
-        return $corner;
-    }
+        $dimension = 11;
 
-    public function providerTriaxTop()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Top Right");
-        $corner->addMaterial($this->silica, 28.5);
-        $corner->addMaterial($this->mahavir, 27.2);
-        $corner->addMaterial($this->epk, 21.9);
-        $corner->addMaterial($this->wollastonite, 16.5);
-        $corner->addMaterial($this->talc, 5.9);
-        $corner->addMaterial($this->rio, 9.5);
-        $corner->addMaterial($this->tio, 0.6);
-        $corner->addMaterial($this->mno, 0.2);
-        return $corner;
-    }
-
-    public function testCompositeMaterialTriaxialBlend()
-    {
-        $dimension = 8;
-
-        $t = $this->providerLeach4321();
-        $bl = $this->providerPinnellClearDoubledAmounts();
-        $br = $this->providerTriaxBottomRight();
-        /*
         $t = $this->providerTriaxTop();
         $bl = $this->providerTriaxBottomLeft();
         $br = $this->providerTriaxBottomRight();
-        */
-        /*We'll test that TriaxialBlend gives the same results as performing line blends along the two top
-        sides of the triangle, followed by a horizontal line blend 
-        */
-        $blend50 = LineBlend::createLineBlend($t, $bl, 0, 100, 0, 100, 100/($dimension-1))[5];
-        $blend05 = LineBlend::createLineBlend($t, $br,  0, 100, 0, 100, 100/($dimension-1))[5];
-        $blend23 = LineBlend::createLineBlend($blend50, $blend05,  0, 100, 0, 100, 100/5)[3];
-
+        
         $triaxialBlend = TriaxialBlend::createTriaxialBlend($t, $bl, $br, $dimension);
 
         $this->assertEquals($dimension, count($triaxialBlend));
         $this->assertEquals($dimension, count($triaxialBlend[0]));
 
+        /*
+        We'll test that TriaxialBlend gives the same results as performing line blends from bottom left
+        to top, and bottom left to bottom right, followed by a line blend parallel to the third side of the
+        triangle. We'll do this by comparing the UMF of the blend in position (2,3).
+        */
+
+        $blend50 = LineBlend::createLineBlend($bl, $t, 0, 100, 0, 100, 100/($dimension-1))[5];
+        $blend05 = LineBlend::createLineBlend($bl, $br, 0, 100, 0, 100, 100/($dimension-1))[5];
+        $blend23 = LineBlend::createLineBlend($blend50, $blend05,  0, 100, 0, 100, 100/5)[3];
+
         $blend23Umf = $blend23->getUmfAnalysis();
         $triaxialBlend23Umf = $triaxialBlend[2][3]->getUmfAnalysis();
-        $this->assertEquals($blend23Umf->getOxide(Analysis::SiO2), 
-                            $triaxialBlend23Umf->getOxide(Analysis::SiO2));
-        //}
 
-        //        $leach90Pinnell10 = $biaxialBlend[0][0]->getSimplifiedMaterial();
-/*
-        $this->assertEquals(38.5, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
-        $this->assertEquals(30.5, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
-        $this->assertEquals(20, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
-        $this->assertEquals(11, $leach90Pinnell10->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
-*/
-//        $leach40Pinnell60 = $biaxialBlend[2][2]->getSimplifiedMaterial();
-/*
-        $this->assertEquals(31, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
-        $this->assertEquals(33, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
-        $this->assertEquals(20, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
-        $this->assertEquals(16, $leach40Pinnell60->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
-*/
-        //BiaxialBlendHtmlView::print($biaxialBlend);
+        $oxideArray = array('SiO2', 'Al2O3', 'CaO', 'K2O');
+        foreach ($oxideArray as $oxide) {
+            $this->assertEquals($blend23Umf->getOxide($oxide), $triaxialBlend23Umf->getOxide($oxide));
+        }
+
+        // Now we'll do a check that doesn't depend on LineBlend.
+
+        $triaxialBlend23Materials = $triaxialBlend[2][3]->getSimplifiedMaterial();
+
+        $this->assertEquals(45.5, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
+        $this->assertEquals(31.0, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
+        $this->assertEquals(19.0, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
+        $this->assertEquals(4.5, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
+
+        //TriaxialBlendHtmlView::print($triaxialBlend);
     }
 
 }
 
 
-/*
-Tenmoku Biaxial
-    public function providerBiaxBottomRight()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Bottom Right");
-        $corner->addMaterial($this->mahavir, 37);
-        $corner->addMaterial($this->wollastonite, 29);
-        $corner->addMaterial($this->silica, 26);
-        $corner->addMaterial($this->epk, 8);
-        $corner->addMaterial($this->rio, 8.5);
-        return $corner;
-    }
-
-    public function providerBiaxBottomLeft()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Bottom Left");
-        $corner->addMaterial($this->mahavir, 41);
-        $corner->addMaterial($this->epk, 30);
-        $corner->addMaterial($this->whiting, 19);
-        $corner->addMaterial($this->wollastonite, 10);
-        $corner->addMaterial($this->rio, 8.5);
-        return $corner;
-    }
-
-    public function providerBiaxTopRight()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Top Right");
-        $corner->addMaterial($this->mahavir, 27);
-        $corner->addMaterial($this->silica, 37);
-        $corner->addMaterial($this->wollastonite, 22);
-        $corner->addMaterial($this->epk, 14);
-        $corner->addMaterial($this->rio, 8.5);
-        return $corner;
-    }
-
-    public function providerBiaxTopLeft()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Top Left");
-        $corner->addMaterial($this->epk, 42);
-        $corner->addMaterial($this->mahavir, 32);
-        $corner->addMaterial($this->wollastonite, 26);
-        $corner->addMaterial($this->rio, 8.5);
-        return $corner;
-    }
-
- */
-
-/*
- Celadon Biax (New Pinnell)
-
-    public function providerBiaxBottomRight()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Bottom Right");
-        $corner->addMaterial($this->mahavir, 37);
-        $corner->addMaterial($this->wollastonite, 29);
-        $corner->addMaterial($this->silica, 26);
-        $corner->addMaterial($this->nzk, 8);
-        $corner->addMaterial($this->yio, 0.7);
-        return $corner;
-    }
-
-    public function providerBiaxBottomLeft()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Bottom Left");
-        $corner->addMaterial($this->mahavir, 42);
-        $corner->addMaterial($this->wollastonite, 33);
-        $corner->addMaterial($this->nzk, 20);
-        $corner->addMaterial($this->silica, 5);
-        $corner->addMaterial($this->yio, 0.7);
-        return $corner;
-    }
-
-    public function providerBiaxTopRight()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Top Right");
-        $corner->addMaterial($this->mahavir, 27);
-        $corner->addMaterial($this->silica, 35);
-        $corner->addMaterial($this->wollastonite, 21);
-        $corner->addMaterial($this->nzk, 17);
-        $corner->addMaterial($this->yio, 0.7);
-        return $corner;
-    }
-
-    public function providerBiaxTopLeft()
-    {
-        $corner = new CompositeMaterial();
-        $corner->setName("Top Left");
-        $corner->addMaterial($this->nzk, 30);
-        $corner->addMaterial($this->mahavir, 29);
-        $corner->addMaterial($this->wollastonite, 23);
-        $corner->addMaterial($this->silica, 18);
-        $corner->addMaterial($this->yio, 0.7);
-        return $corner;
-    }
-
- */
 ?>

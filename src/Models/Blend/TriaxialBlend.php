@@ -24,15 +24,16 @@ class TriaxialBlend {
 	 * Return an array containing each blended CompositeMaterial in the triaxial blend (plus some empty entries).
    *
    * The array will look something like
-   * X_00 X_01 X_02
-   * X_10 X_11  -
-   * X_20  -    -
-   * where X_00 is the topMaterial, X_02 is the bottomRightMaterial, and X_20 is the bottomLeftMaterial
+   * X_30
+   * X_20 X_21
+   * X_10 X_11 X_12
+   * X_00 X_01 X_02 X_03
+   * where X_00 is the bottomLeftMaterial, X_03 is the bottomRightMaterial, and X_30 is the topMaterial
      */
 	public static function createTriaxialBlend(
 		AbstractMaterial $topMaterial,
-    AbstractMaterial $bottomLeftMaterial,
-    AbstractMaterial $bottomRightMaterial,
+        AbstractMaterial $bottomLeftMaterial,
+        AbstractMaterial $bottomRightMaterial,
 		$dimension) : array
 	{
 		if (empty($topMaterial)) { throw new Exception('First Glaze empty.'); }
@@ -41,13 +42,13 @@ class TriaxialBlend {
         if ($dimension < 2) { throw new Exception('Dimension must be greater than one.'); }
         $blends = array();
         for ($currentRow = 0; $currentRow < $dimension; $currentRow++) {
-            $bottomLeftMaterialPercentage =
+            $topMaterialPercentage =
                 $currentRow / ($dimension - 1) * 100;
             for ($currentColumn = 0; $currentColumn < $dimension - $currentRow; $currentColumn++) {
-                $topMaterialPercentage =
-					          ($dimension - 1 - $currentRow - $currentColumn) / ($dimension - 1) * 100;
                 $bottomRightMaterialPercentage =
                     $currentColumn / ($dimension - 1) * 100;
+                $bottomLeftMaterialPercentage =
+					          ($dimension - 1 - $currentRow - $currentColumn) / ($dimension - 1) * 100;
                 $blend = new CompositeMaterial();
                 $blend->addMaterial($topMaterial, $topMaterialPercentage);
                 $blend->addMaterial($bottomLeftMaterial, $bottomLeftMaterialPercentage);
