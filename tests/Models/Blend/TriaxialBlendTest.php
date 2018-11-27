@@ -23,7 +23,8 @@ class TriaxialBlendTest extends BaseCompositeMaterialTest
     protected $kaolin = null;
     protected $whiting = null;
 
-    function __construct() {
+    function __construct() 
+    {
         parent::__construct();
 
         $this->potashFeldspar = $this->primitiveMaterials->getPrimitiveMaterialByName('Potash Feldspar');
@@ -85,7 +86,7 @@ class TriaxialBlendTest extends BaseCompositeMaterialTest
 
         $blend50 = LineBlend::createLineBlend($bl, $t, 0, 100, 0, 100, 100/($dimension-1))[5];
         $blend05 = LineBlend::createLineBlend($bl, $br, 0, 100, 0, 100, 100/($dimension-1))[5];
-        $blend23 = LineBlend::createLineBlend($blend50, $blend05,  0, 100, 0, 100, 100/5)[3];
+        $blend23 = LineBlend::createLineBlend($blend50, $blend05, 0, 100, 0, 100, 100/5)[3];
 
         $blend23Umf = $blend23->getUmfAnalysis();
         $triaxialBlend23Umf = $triaxialBlend[2][3]->getUmfAnalysis();
@@ -97,17 +98,15 @@ class TriaxialBlendTest extends BaseCompositeMaterialTest
 
         // Now we'll do a check that doesn't depend on LineBlend.
 
-        $triaxialBlend23Materials = $triaxialBlend[2][3]->getSimplifiedMaterial();
+        $triBlend23Materials = $triaxialBlend[2][3]->getSimplifiedMaterial();
 
-        $this->assertEquals(45.5, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
-        $this->assertEquals(31.0, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
-        $this->assertEquals(19.0, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
-        $this->assertEquals(4.5, $triaxialBlend23Materials->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
+        $this->assertEquals(45.5, $triBlend23Materials->getMaterialComponent(self::MATERIAL_POTASH_ID)->getAmount());
+        $this->assertEquals(31.0, $triBlend23Materials->getMaterialComponent(self::MATERIAL_SILICA_ID)->getAmount());
+        $this->assertEquals(19.0, $triBlend23Materials->getMaterialComponent(self::MATERIAL_WHITING_ID)->getAmount());
+        $this->assertEquals(4.5, $triBlend23Materials->getMaterialComponent(self::MATERIAL_KAOLIN_ID)->getAmount());
 
         //TriaxialBlendHtmlView::print($triaxialBlend);
     }
-
 }
-
 
 ?>

@@ -6,14 +6,17 @@
  * file that was distributed with this source code.
  */
 namespace DerekPhilipAu\Ceramicscalc\Models\Blend;
+
 use DerekPhilipAu\Ceramicscalc\Models\Material\AbstractMaterial;
 use DerekPhilipAu\Ceramicscalc\Models\Material\CompositeMaterial;
+
 /**
  * Class TriaxialBlend
  * @package DerekPhilipAu\Ceramicscalc\Models\Blend
  *
  */
-class TriaxialBlend {
+class TriaxialBlend
+{
     /**
      * @param AbstractMaterial $topMaterial
      * @param AbstractMaterial $bottomLeftMaterial
@@ -55,8 +58,8 @@ class TriaxialBlend {
                 $blend->addMaterial($bottomRightMaterial, $bottomRightMaterialPercentage);
                 $blends[$currentRow][$currentColumn] = $blend;
             }
-		}
-		return $blends;
-	}
+        }
+        return $blends;
+    }
 }
 ?>
