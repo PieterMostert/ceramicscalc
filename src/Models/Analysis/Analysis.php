@@ -7,6 +7,8 @@
  */
 namespace DerekPhilipAu\Ceramicscalc\Models\Analysis;
 
+use Exception;
+
 /**
  * Class Analysis
  * @package DerekPhilipAu\Ceramicscalc\Models\Analysis
